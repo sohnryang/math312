@@ -1,0 +1,321 @@
+\documentclass{scrartcl}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{blindtext}
+\usepackage{datetime}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{kotex}
+\usepackage{mathrsfs}
+\usepackage{mathtools}
+\usepackage{pgf,tikz,pgfplots}
+
+\pgfplotsset{compat=1.15}
+\usetikzlibrary{arrows}
+
+\newcommand\Overline[2][0.8pt]{%
+  \begin{tikzpicture}[baseline=(a.base)]
+    \node[inner xsep=0pt,inner ysep=1.5pt] (a) {$#2$};
+    \draw[line width= #1] (a.north west) -- (a.north east);
+  \end{tikzpicture}
+}
+\newtheorem{theorem}{Theorem}
+
+\setmainhangulfont{Noto Serif CJK KR}[
+  UprightFont=* Light, BoldFont=* Bold,
+  Script=Hangul, Language=Korean, AutoFakeSlant,
+]
+\setsanshangulfont{Noto Sans CJK KR}[
+  UprightFont=* DemiLight, BoldFont=* Medium,
+  Script=Hangul, Language=Korean
+]
+\setmathhangulfont{Noto Sans CJK KR}[
+  SizeFeatures={
+    {Size=-6,  Font=* Medium},
+    {Size=6-9, Font=*},
+    {Size=9-,  Font=* DemiLight},
+  },
+  Script=Hangul, Language=Korean
+]
+\title{MATH312: Homework 1 (due Sep. 18)}
+\author{손량(20220323)}
+\date{Last compiled on: \today, \currenttime}
+
+\newcommand{\un}[1]{\ensuremath{\ \mathrm{#1}}}
+\newcommand{\imag}{\operatorname{Im}}
+\newcommand{\real}{\operatorname{Re}}
+\newcommand{\Log}{\operatorname{Log}}
+\newcommand{\Arg}{\operatorname{Arg}}
+\DeclareMathOperator*{\Res}{Res}
+
+\begin{document}
+\maketitle
+
+\section{Chapter 7 \#2}
+Let \(f(x) := \lim_{n \to \infty} f_n(x), g(x) := \lim_{n \to \infty} g_n\).
+Fix \(\epsilon > 0\). As both \(f_n\) and \(g_n\) converge uniformly, there
+exists \(N \in \mathbb{N}\) such that \(n \geq N\) implies the following, for
+all \(x \in E\).
+\begin{align*}
+  |f_n(x) - f(x)| < \frac{\epsilon}{2},\quad
+  |g_n(x) - g(x)| < \frac{\epsilon}{2}
+\end{align*}
+
+Using triangle inequality, we can write
+\begin{align*}
+  |(f_n(x) + g_n(x)) - (f(x) - g(x))|
+  &= |(f_n(x) - f(x)) + (g_n(x) - g(x))| \\
+  &\leq |f_n(x) - f(x)| + |g_n(x) - g(x)|
+  < \epsilon
+\end{align*}
+
+Since the choice of \(\epsilon\) here is arbitrary, there exists \(N\) such
+that \(n \geq N\) implies \(|(f_n(x) + g_n(x)) - (f(x) - g(x))| < \epsilon\).
+Thus, \(\{f_n + g_n\}\) converges uniformly.
+
+As \(\{f_n\}\) is bounded for all \(n\), there exists \(\{A_n\} \subset
+\mathbb{R}\) such that \(|f_n| \leq A_n\) for all \(n\). As \(f_n(x)\)
+converges uniformly to \(f(x)\), three exists \(N \in \mathbb{N}\) such that
+\(n \geq N\) implies \(|f_n(x) - f(x)| < \epsilon\) for all \(x \in E\). Then
+by triangle inequality, \(|f(x)| - |f_n(x)| \leq |f_n(x) - f(x)| < \epsilon\)
+holds for all \(n \geq N\) and \(x \in E\), so we can write
+\begin{align*}
+  |f(x)| \leq |f_N(x)| + \epsilon \leq A_N + \epsilon
+\end{align*}
+and \(f\) is a bounded function. We can also write
+\begin{align*}
+  |f_n(x)| \leq |f(x)| + \epsilon
+\end{align*}
+for all \(n \geq N\). As \(f\) is a bounded function, the following holds:
+\begin{align*}
+  |f_n(x)| \leq \max \{A_1, A_2, \dots, A_N, A_N + 2\epsilon\}
+\end{align*}
+Thus, \(\{f_n\}\) can be bounded by the same constant.
+
+Let \(A, B\) be real numbers such that \(|f_n(x)| \leq A, |g_n(x)| \leq B\)
+for all \(n\) and \(x \in E\). This can be done using the result we proved
+earlier. We can write
+\begin{align*}
+  f_n(x) g_n(x) - f(x) g(x)
+  &= \frac{1}{2} (f_n(x) - f(x))(g_n(x) - g(x)) \\
+  &+ \frac{1}{2} (f_n(x) + f(x)) (g_n(x) - g(x))
+\end{align*}
+By triangle inequality,
+\begin{align*}
+  &|f_n(x) g_n(x) - f(x) g(x)| \\
+  &\leq \left|\frac{1}{2} (f_n(x) - f(x))(g_n(x) - g(x)) \right|
+  + \left| \frac{1}{2} (f_n(x) + f(x)) (g_n(x) - g(x)) \right| \\
+  &\leq \frac{1}{2} |g_n(x) - g(x)| (|f_n(x)| + |f(x)|)
+  + \frac{1}{2} |f_n(x) - f(x)| (|g_n(x)| + |g(x)|) \\
+  &\leq A|f_n(x) - f(x)| + B|g_n(x) - g(x)|
+\end{align*}
+As \(\{f_n\}\) and \(\{g_n\}\) converge uniformly, there exists \(N\) such that
+\(n \geq N\) implies \(|f_n(x) - f(x)| < \epsilon / (2A)\) and \(|g_n(x) -
+g(x)| < \epsilon / (2B)\). Thus, \(\{f_n g_n\}\) converges uniformly.
+
+\section{Chapter 7 \#3}
+Consider \(f_n(x) = g_n(x) = x + (1 / n)\) on \(\mathbb{R}\). Fix \(\epsilon >
+0\). Let \(N = \lceil 1 / \epsilon \rceil\). For all \(n \geq N\), we can write
+\begin{align*}
+  |f_n(x) - x| = \left| \frac{1}{n} \right|
+  = \left| \left\lceil \frac{1}{\epsilon} \right\rceil^{-1} \right|
+  \leq \epsilon
+\end{align*}
+and \(\{f_n\}\) and \(\{g_n\}\) converges uniformly to \(x\).
+
+As \(1 / n\) and \(1 / n^2\) converges to zero as \(n\) tends to infinity,
+\(f_n(x) g_n(x) = x^2 + 2x / n + 1 / n^2\) converges pointwisely to \(x^2\).
+Consider a sequence \(x_n = n\). We can write
+\begin{align*}
+  |f_n(x_n) g_n(x_n) - x_n^2| = \left| \frac{2x_n}{n} + \frac{1}{n^2} \right|
+  = \left| 2 + \frac{1}{n^2} \right| \geq 2
+\end{align*}
+Thus, \(\{f_n g_n\}\) does not converge uniformly.
+
+\section{Chapter 7 \#5}
+For \(x \in \mathbb{R}\), let \(N\) as follows:
+\begin{align*}
+  N = \begin{cases}
+    1 & (x \leq 0) \\
+    \left\lceil \frac{1}{x} \right\rceil & (x > 0)
+  \end{cases}
+\end{align*}
+Fix \(\epsilon\). For \(n \geq N\), if \(x \leq 0\) then \(|f_n(x)| = 0 <
+\epsilon\), and if \(x > 0\),
+\begin{align*}
+  x = \left( \frac{1}{x} \right)^{-1}
+  \geq \left\lceil \frac{1}{x} \right\rceil^{-1} = \frac{1}{N} \geq \frac{1}{n}
+\end{align*}
+so \(|f_n(x)| = 0 < \epsilon\) and \(\{f_n\}\) converges to zero pointwisely,
+which is a constant function, hence continuous.
+
+However, for \(x_n = 1 / (n + 1/2)\), \(f_n(x_n) = 1 \geq 1\) for all \(n\).
+Thus, \(\{f_n\}\) does not converge uniformly.
+
+We can write
+\begin{align*}
+  \sum^\infty_{n = 1}
+  = \sum^\infty_{n = 1} \sin^2 \left( \frac{\pi}{x} \right)
+  \mathbf{I}_{\left[\frac{1}{n + 1}, \frac{1}{n}\right]}(x)
+\end{align*}
+where \(\mathbf{I}_A(x)\) is an inidcator function of set \(A\). As \((1 /
+(n + 1), 1 / n)\), \((1 / (m + 1), 1 / m)\) are disjoint for \(n \not = m\)
+and \(f_n(1 / k) = 0\) for all \(n \in \mathbb{N}\), \(k \in \mathbb{N}\), for
+all \(x \in \mathbb{R}\), at most one of \(f_1(x), f_2(x), \dots\) is nonzero.
+Thus, for all \(x\), only one of the terms of \(\sum f_n(x)\) is nonzero, so
+\(\sum f_n(x)\) converges pointwisely for all \(x\), and since \(f_n(x) \geq
+0\) for all \(x\), \(\sum f_n(x)\) converges absolutely.
+
+\section{Chapter 7 \#7}
+Using AM-GM inequality, for \(x \not = 0\) we can write
+\begin{align*}
+  |f_n(x)| = \left| \frac{x}{1 + nx^2} \right| \leq \frac{|x|}{2|x| \sqrt{n}}
+  = \frac{1}{2\sqrt{n}}
+\end{align*}
+Since \(f_n(0) = 0\), \(f_n(x) \leq 1 / (2\sqrt{n})\) holds for all \(n\). For
+all \(\epsilon > 0\), by taking \(N \in \mathbb{N}\) with \(N > 1 /
+(4\epsilon^2)\), for all \(n \geq N\) the following holds for all \(x \in
+\mathbb{R}\):
+\begin{align*}
+  |f_n(x)| \leq \frac{1}{2\sqrt{n}} \leq \frac{1}{2\sqrt{N}} < \epsilon
+\end{align*}
+Thus \(\{f_n\}\) converges uniformly to \(f(x) = 0\).
+
+Taking the derivative of \(f_n(x)\),
+\begin{align*}
+  f'_n(x) = \frac{1 - nx^2}{(1 + nx^2)^2}
+\end{align*}
+For \(x \not = 0\),
+\begin{align*}
+  0 \leq f'_n(x) \leq \frac{\frac{1}{n} - x^2}{\frac{1}{n} + 2x^2 + nx^4}
+  \leq \frac{\frac{1}{n}}{nx^4} < \frac{1}{n^2x^4}
+\end{align*}
+By sandwich theorem, \(\lim_{n \to \infty} f'_n(x) = 0\) as \(1 / (n^2x^4)\)
+converges to zero as \(n\) tends to infinity. Since \(f'(x) = 0\), it is clear
+that \(\lim_{n \to \infty} f'(x) = 0\) for \(x \not = 0\).
+For \(x = 0\), \(f'_n(x) = 1\) so \(f'(x) \not = \lim_{n \to \infty} f'_n(x)\).
+
+\section{Chapter 7 \#9}
+By triangle inequality,
+\begin{align*}
+  |f_n(x_n) - f(x)| = |f_n(x_n) - f(x_n) + f(x_n) - f(x)|
+  \leq |f_n(x_n) - f(x_n)| + |f(x_n) - f(x)|
+\end{align*}
+Fix \(\epsilon > 0\). Since \(\{f_n\}\) converges uniformly, there exists
+\(N_1 \in N\) such that \(n \geq N_1\) implies \(|f_n(x) - f(x)| < \epsilon /
+2\) for all \(x \in E\). Thus, \(|f_n(x_n) - f(x_n)| < \epsilon / 2\). By
+theorem~7.12 in the book, \(f\) is continuous so by definition, for all
+sequence \(\{x_n\} \subset E\) that converges to \(x\), \(f(x_n)\) converges to
+\(f(x)\) as \(n\) tends to infinity. Thus, there exists \(N_2 \in \mathbb{N}\)
+such that \(n \geq N_2\) implies \(|f(x_n) - f(x)| < \epsilon / 2\). Then, \(n
+\geq \max \{N_1, N_2\}\) implies \(|f_n(x_n) - f(x)| < \epsilon\). Since the
+choice of \(\epsilon\) here is arbitrary, we can conclude that \(\lim_{n \to
+\infty} f_n(x_n) = f(x)\).
+
+Consider a sequence of continuous functions, \(f_n: \mathbb{R} \to \mathbb{R}\)
+defined as follows:
+\begin{align*}
+  f_n(x) = \begin{cases}
+    \sin^2 \pi x & (x \in [n, n + 1]) \\
+    0 & (x \not \in [n, n + 1])
+  \end{cases}
+\end{align*}
+Fix \(\epsilon > 0\). Let \(\{x_n\} \subset \mathbb{R}\) be a sequence that
+converges to \(x \in \mathbb{R}\). For \(x \leq 0\), there exists \(N \in
+\mathbb{N}\) such that \(n \geq N\) implies \(|x_n - x| \leq |x| / 2\) as
+\(x_n \to x\). Then, \(x_n \leq -|x| / 2\) so \(|f_n(x_n)| = 0 < \epsilon\).
+For \(x > 0\), there exists \(N \in \mathbb{N}\) such that \(n \geq N\)
+implies \(|x_n - x| < \left\lceil x \right\rceil - x + 1 / 2\) as \(x_n \to
+x\). Then, \(n \geq \max\{N, \lceil x \rceil + 1 / 2\}\) implies \(|f_n(x_n)| =
+0 < \epsilon\) as \(x_n < \lceil x \rceil + 1 / 2\) so \(n \geq N \geq \lceil
+x \rceil + 1 / 2 > x_n\). Thus, \(\lim_{n \to \infty} f_n(x_n) = 0\) for all
+\(\{x_n\} \subset \mathbb{R}\) such that \(x_n \to x \in \mathbb{R}\). However,
+\(\{f_n\}\) does not converge to \(f(x) = 0\) uniformly. Consider \(x_n = n + 1
+/ 2\). Then, \(f_n(x_n) = \sin^2 (\pi(n + 1 / 2)) = 1\) so \(|f_n(x_n)| \geq
+1\). In conclusion, the converse is not true.
+
+\section{Chapter 7 \#12}
+Let \(h: (0, 1] \to \mathbb{R}\) and \(h_n: (0, 1] \to \mathbb{R}\) be defined
+as follows:
+\begin{align*}
+  h(t) = \int^1_t f(x) dx, \quad h_n(t) = \int^1_t f_n(x) dx
+\end{align*}
+Fix \(\epsilon > 0\). We can write
+\begin{align*}
+  |h_n(t) - h(t)|
+  &= \left| \int^1_t (f_n(x) - f(x)) dx \right|
+  \leq \int^1_t |f_n(x) - f(x)| dx \\
+  &\leq (1 - t) \sup_{t \leq x \leq 1} |f_n(x) - f(x)|
+  \leq (1 - t) \sup_{t \in (0, \infty)} |f_n(x) - f(x)| \\
+  &\leq \sup_{t \in (0, \infty)} |f_n(x) - f(x)|
+\end{align*}
+By theorem~7.9 there exists \(N \in \mathbb{N}\) such that \(\sup_{t \in (0,
+\infty)} |f_n(x) - f(x)| < \epsilon\). Thus, \(\{h_n\}\) converges uniformly to
+\(h\). Using the theorem~7.11,
+\begin{align*}
+  \lim_{t \to 0} \lim_{n \to \infty} h_n(t)
+  = \lim_{n \to \infty} \lim_{t \to 0} h_n(t)
+\end{align*}
+and this can be written as
+\begin{align}\label{sec6_zero_to_one}
+  \int^1_0 f(x) dx = \lim_{n \to \infty} \int^1_0 f_n(x) dx
+\end{align}
+
+By sandwich theorem, for all \(x \in (0, \infty)\), \(\lim_{n \to \infty}
+|f_n(x)| = |f(x)| \leq g(x)\). By the integral test of series, \(\int^\infty_1
+f_n(x) dx\) converges if and only if \(\sum^\infty_{k = 1} f_n(k)\) converges.
+Since we know that \(\int^\infty_0 g(x) dx\) converges, \(\int^\infty_1 g(x)
+dx\) also converges as \(g(x) \geq 0\), and \(\sum^\infty_{n = 1} g(n)\) also
+converges as a result of the integral test. By comparison test, we know that
+\(\sum^\infty_{k = 1} |f_n(k)|\) converges for all \(n\), so \(\sum^\infty_{k =
+1} f_n(k)\) converges absolutely. Thus, \(\int^\infty_1 f_n(x) dx\) converges
+for all \(n\). The same logic can be applied for \(f(x)\), and \(\int^\infty_1
+f(x) dx\) also converges. Let \(u \in (1, \infty)\). By triangle inequality,
+\begin{align*}
+  &\left| \int^\infty_1 f_n(x) dx - \int^\infty_1 f(x) dx \right| \\
+  &= \left| \int^\infty_1 f_n(x) dx - \int^u_1 f_n(x) dx + \int^u_1 f_n(x) dx
+  - \int^u_1 f(x) dx + \int^u_1 f(x) dx - \int^\infty_1 f(x) dx\right| \\
+  &\leq \left| \int^\infty_1 f_n(x) dx - \int^u_1 f_n(x) dx \right|
+  + \left| \int^u_1 f_n(x) dx - \int^u_1 f(x) dx \right|
+  + \left| \int^u_1 f(x) dx - \int^\infty_1 f(x) dx \right|
+\end{align*}
+Fix \(\epsilon > 0\).
+Since \(|f_n(x)| \leq g(x)\), we can write
+\begin{align*}
+  \left| \int^\infty_1 f_n(x) dx - \int^u_1 f_n(x) dx \right|
+  = \left| \int^\infty_u f_n(x) dx \right|
+  \leq \int^\infty_u |f_n(x)| dx
+  \leq \int^\infty_u g(x) dx
+\end{align*}
+There exists some constant \(M > 1\) such that \(u \geq M\) implies
+\(\int^\infty_u g(x) dx < \epsilon / 3\) by the definition of improper
+integral. Also, we can write
+\begin{align*}
+  \left| \int^\infty_1 f(x) dx - \int^u_1 f(x) dx \right|
+  = \left| \int^\infty_u f(x) dx \right|
+  \leq \int^\infty_u |f(x)| dx
+  \leq \int^\infty_u g(x) dx
+\end{align*}
+Then, \(u \geq M\) implies \(\left| \int^\infty_1 f_n(x) dx - \int^u_1 f_n(x)
+dx \right| < \epsilon / 3\) and \(\left| \int^\infty_1 f_n(x) dx - \int^u_1
+f_n(x) dx \right| < \epsilon / 3\).
+Fix \(u\) to some real number greater or equal to \(M\). Then, by theorem~7.16,
+\(\lim_{n \to \infty} \int^u_1 f_n(x) dx = \int^u_1 f(x) dx\), so there exists
+\(N \in \mathbb{N}\) such that \(n \geq N\) implies \(\left| \int^u_1 f_n(x) dx
+- \int^u_1 f(x) dx \right| < \epsilon / 3\). Thus, we can write
+\begin{align*}
+  \left| \int^\infty_1 f_n(x) dx - \int^\infty_1 f(x) dx \right| < \epsilon
+\end{align*}
+for \(n \geq N\), so
+\begin{align}\label{sec6_one_to_infty}
+  \int^\infty_1 f(x) dx = \lim_{n \to \infty} \int^\infty_1 f_n(x) dx
+\end{align}
+Using (\ref{sec6_zero_to_one}) and (\ref{sec6_one_to_infty}), we get the
+desired result:
+\begin{align*}
+  \lim_{n \to \infty} \int^\infty_0 f_n(x) dx = \int^\infty_0 f(x) dx
+\end{align*}
+\end{document}
+% vim: textwidth=79
