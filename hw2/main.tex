@@ -1,0 +1,394 @@
+\documentclass{scrartcl}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{blindtext}
+\usepackage{datetime}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{kotex}
+\usepackage{mathrsfs}
+\usepackage{mathtools}
+\usepackage{pgf,tikz,pgfplots}
+
+\pgfplotsset{compat=1.15}
+\usetikzlibrary{arrows}
+
+\newcommand\Overline[2][0.8pt]{%
+  \begin{tikzpicture}[baseline=(a.base)]
+    \node[inner xsep=0pt,inner ysep=1.5pt] (a) {$#2$};
+    \draw[line width= #1] (a.north west) -- (a.north east);
+  \end{tikzpicture}
+}
+\newtheorem{theorem}{Theorem}
+
+\setmainhangulfont{Noto Serif CJK KR}[
+  UprightFont=* Light, BoldFont=* Bold,
+  Script=Hangul, Language=Korean, AutoFakeSlant,
+]
+\setsanshangulfont{Noto Sans CJK KR}[
+  UprightFont=* DemiLight, BoldFont=* Medium,
+  Script=Hangul, Language=Korean
+]
+\setmathhangulfont{Noto Sans CJK KR}[
+  SizeFeatures={
+    {Size=-6,  Font=* Medium},
+    {Size=6-9, Font=*},
+    {Size=9-,  Font=* DemiLight},
+  },
+  Script=Hangul, Language=Korean
+]
+\title{MATH312: Homework 2 (due Sep. 28)}
+\author{손량(20220323)}
+\date{Last compiled on: \today, \currenttime}
+
+\newcommand{\un}[1]{\ensuremath{\ \mathrm{#1}}}
+\newcommand{\imag}{\operatorname{Im}}
+\newcommand{\real}{\operatorname{Re}}
+\newcommand{\Log}{\operatorname{Log}}
+\newcommand{\Arg}{\operatorname{Arg}}
+\DeclareMathOperator*{\Res}{Res}
+
+\begin{document}
+\maketitle
+
+\section{Chapter 7 \#13}
+\subsection{Solution for (a)}
+By theorem~7.23, there exists a subsequence \(\{f_{n'_k}\}\) of \(\{f_n\}\)
+such that \(\{f_{n'_k}(x)\}\) converges for every \(x \in \mathbb{Q}\). Take
+such \(n'_k\). Let \(g: \mathbb{R} \to \mathbb{R}\) defined as follows: (the
+existence of supremum is guaranteed by the least~upper~bound~principle.)
+\begin{align*}
+  g(x)
+  = \sup_{r \in (-\infty, x] \cap \mathbb{Q}} \lim_{k \to \infty} f_{n'_k}(r)
+\end{align*}
+Consider reals \(x\) and \(y\) such that \(x < y\). Then, as \(((-\infty, x]
+\cap \mathbb{Q}) \subset ((-\infty, y] \cap \mathbb{Q})\), \(g(x) \le g(y)\).
+In other words, \(g\) is an monotonically increasing function. Now, consider a
+rational \(q\). Since \(f_n\) is monotonically increasing for all \(n\), we
+know that \(f_{n'_k}(q) \ge f_{n'_k}(r)\) for all rational \(r\) such that \(r
+\le q\), for all \(k\). Then, \(\lim_{k \to \infty} f_{n'_k}(q) \ge \lim_{k \to
+\infty} f_{n'_k}(r)\) for all rational \(r \le q\). Thus, \(g(q) = \lim_{k \to
+\infty} f_{n'_k}(q)\). Consider \(p \in \mathbb{R}\). Suppose that \(g\) is
+continuous at \(p\). Fix some \(\epsilon > 0\). By the continuity of \(g\) at
+\(p\), there exists some \(\delta > 0\) such that \(|x - p| < \delta\) implies
+\(|g(x) - g(p)| < \epsilon\). Since \(\mathbb{Q}\) is dense in \(\mathbb{R}\),
+there exists rationals \(q, r\) such that \(p - \delta < q < p < r < p +
+\delta\). Then we can write
+\begin{align}\label{sec1_f_ineq}
+  g(p) - \epsilon < g(q) \le g(p) \le g(r) < g(p) + \epsilon
+\end{align}
+as \(g\) is monotonically increasing. Also, as \(f_n\) is monotonically
+increasing for all \(n\), for all \(k\), we can write
+\begin{align}\label{sec1_fnk_ineq}
+  f_{n'_k}(q) \le f_{n'_k}(p) \le f_{n'_k}(r)
+\end{align}
+Using (\ref{sec1_f_ineq}) and (\ref{sec1_fnk_ineq}), we can write
+\begin{align*}
+  g(q) - f_{n'_k}(r) \le g(p) - f_{n'_k}(p) \le g(r) - f_{n'_k}(q)
+\end{align*}
+As \(g(q) = \lim_{k \to \infty} f_{n'_k}(q)\) and \(g(r) = \lim_{k \to \infty}
+f_{n'_k}(r)\), there exists \(N \in \mathbb{N}\) such that \(k \ge N\) implies
+\(|f_{n'_k}(q) - g(q)| < \epsilon\) and \(|f_{n'_k}(r) - g(r)| < \epsilon\).
+Then, by triangle inequality,
+\begin{align*}
+  |g(q) - f_{n'_k}(r)|
+  &\le |g(q) - g(p)| + |g(p) - g(r)| + |g(r) - f_{n'_k}(r)|
+  < \epsilon + \epsilon + \epsilon
+  = 3\epsilon \\
+  |g(r) - f_{n'_k}(q)|
+  &\le |g(r) - g(p)| + |g(p) - g(q)| + |g(q) - f_{n'_k}(q)|
+  < \epsilon + \epsilon + \epsilon
+  = 3\epsilon
+\end{align*}
+Thus, \(|g(p) - f_{n'_k}(p)| < 3\epsilon\). Since the choice of \(\epsilon\)
+was arbitrary, \(f_{n'_k}(p) \to g(p)\) as \(k \to \infty\). Let \(E\) be a set
+of points of \(\mathbb{R}\) at which \(f\) is discontinuous. Then, by
+theorem~4.30, \(E\) is at most countable. Applying theorem~7.22 again, there
+exists a subsequence \(\{f_{n'_{k_l}}\}\) of \(\{f_{n'_k}\}\) such that
+\(f_{n'_{k_l}}(x)\) converges for every \(x \in E\) as \(l \to \infty\). Since
+\(f_{n'_k}(x)\) converges for every \(x \in E^C\), the subsequence
+\(\{f_{n_k}\}\) we are looking for is \(\{f_{n'_{k_l}}\}\), and \(f\) can be
+constructed by taking \(l \to \infty\) limit to \(f_{n'_{k_l}}(x)\) for all \(x
+\in \mathbb{R}\).
+
+\subsection{Solution for (b)}
+Consider a compact subset \(K \in \mathbb{R}\). As \(f\) is continuous on
+\(K\), \(f\) is uniformly continuous on \(K\). Fix \(\epsilon > 0\). There
+exists some \(\delta > 0\) such that \(|x - y| < \delta\) implies \(|f(x) -
+f(y)| < \epsilon\). As \(K\) is compact, there exists \(t_1, t_2, \dots, t_N\)
+such that \(\bigcup^N_{i = 1} (t_i - \delta / 2, t_i + \delta / 2) \supset
+K\). As \(f_{n_k}(x)\) converges to \(f(x)\) for all \(x\), there exists
+\(M_i\) where \(i = 1, 2, \dots, N\) such that \(k \ge M_i\) implies
+\(|f_{n_k}(t_i) - f(t_i)| < \epsilon\), \(f_{n_k}(t_i + \delta / 2) -
+f_{n_k}(t_i) = f_{n_k}(t_i + \delta / 2) - f(t_i + \delta / 2) + f(t_i + \delta
+/ 2) - f(t_i) + f(t_i) - f_{n_k}(t_i) < 3\epsilon\) and \(f_{n_k}(t_i) -
+f_{n_k}(t_i - \delta / 2) < 3\epsilon\). Let \(M = \max \{M_1, \dots, M_N\}\),
+then \(k \ge M\) implies \(|f_{n_k}(t_i) - f(t_i)| < \epsilon\), \(f_{n_k}(t_i
++ \delta / 2) - f_{n_k}(t_i) < 3\epsilon\) and \(f_{n_k}(t_i) - f_{n_k}(t_i -
+\delta / 2) < 3\epsilon\) for \(i = 1, 2,
+\dots N\). Now, consider \(x \in K\). There exists \(t_m \in \{t_1, \dots,
+t_N\}\) such that \(x \in (t_m - \delta / 2, t_m + \delta / 2)\). For \(k \ge
+M\), we can write
+\begin{align*}
+  |f_{n_k}(x) - f(x)|
+  \le |f_{n_k}(x) - f_{n_k}(t_m)| + |f_{n_k}(t_m) - f(t_m)|
+    + |f(t_m) - f(x)|
+\end{align*}
+Also,
+\begin{align*}
+  &|f_{n_k}(x) - f_{n_k}(t_m)|
+  \le \max\{f_{n_k}(t_m + \delta / 2) - f_{n_k}(t_m),
+    f_{n_k}(t_m) - f_{n_k}(t_m - \delta / 2)\}
+  < 3\epsilon
+\end{align*}
+Since \(k \ge M\), \(|f_{n_k}(t_m) - f(t_m)| \le \epsilon\), and \(|t_m - x| <
+\delta\) implies \(|f(t_m) - f(x)| < \epsilon\). Thus, \(k \ge M\) implies
+\(|f_{n_k}(x) - f(x)| < 5\epsilon\) for all \(x \in K\). Since our choice of
+\(\epsilon\) was arbitrary, \(\{f_{n_k}\}\) uniformly converges to \(f\) on
+\(K\).
+
+\section{Chapter 7 \#14}
+Let \(x_k(t)\) and \(y_k(t)\) as follows:
+\begin{align*}
+  x_k(t) = \sum^k_{n = 1} 2^{-n} f(3^{2n - 1} t), \quad
+  y_k(t) = \sum^k_{n = 1} 2^{-n} f(3^{2n} t)
+\end{align*}
+Then, \(x_k(t)\) and \(y_k(t)\) are continuous for all \(k\) as they are linear
+combination of continuous functions. Let \(M_n = 2^{-n}\). Then, as \(\sum
+M_n\) converges and \(|2^{-n} f(3^{2n - 1} t)| \le M_n\), \(x_k(t)\) converges
+uniformly as \(k \to \infty\) by theorem~7.10. For similar reason, \(y_k(t)\)
+also converges uniformly. By theorem~7.12, \(x(t)\) and \(y(t)\) are continuous
+and so does \(\Phi(t)\), by theorem~4.10.
+
+Following the hint, each \((x_0, y_0) \in I^2\) has a binary expansion form:
+\begin{align*}
+  x_0 = \sum^\infty_{n = 1} 2^{-n} a_{2n - 1}, \quad
+  y_0 = \sum^\infty_{n = 1} 2^{-n} a_{2n}
+\end{align*}
+where each \(a_i\) is 0 or 1. Let \(t_0\) as
+\begin{align*}
+  t_0 = \sum^\infty_{i = 1} 3^{-i - 1} (2a_i)
+\end{align*}
+Then, \(t_0\) is an element of the Cantor set as its ternary fraction does not
+have digit 1. Then, for \(k > 1\), we can write
+\begin{align*}
+  3^k t_0
+  &= 3^k \sum^\infty_{i = 1} 3^{-i - 1} (2a_i)
+  = 3^k \sum^{k - 1}_{i = 1} 3^{-i - 1} (2a_i)
+    + \frac{2a_k}{3} + 3^k \sum^\infty_{i = k + 1} 3^{-i - 1} (2a_i) \\
+  &= \sum^{k - 1}_{i = 1} 3^{k - i - 1} (2a_i)
+    + \frac{2a_k}{3} + 3^k \sum^\infty_{i = k + 1} 3^{-i - 1} (2a_i)
+\end{align*}
+Then, every term of \(\sum^{k - 1}_{i = 1} 3^{k - i - 1} (2a_i)\) is an even
+number, so \(\sum^{k - 1}_{i = 1} 3^{k - i - 1} (2a_i)\) is even. Then,
+\begin{align}\label{sec2_f}
+  f(3^k t_0)
+  = f \left( \frac{2a_k}{3} + 3^k \sum^\infty_{i = k + 1} 3^{-i - 1} (2a_i) \right)
+\end{align}
+as \(f(t) = f(t + 2)\) for all \(t\). Also, we can write
+\begin{align*}
+  0
+  \le 3^k \sum^\infty_{i = k + 1} 3^{-i - 1} (2a_i)
+  \le 3^k \sum^\infty_{i = k + 1} 2 \cdot 3^{-i - 1}
+  = \frac{1}{3}
+\end{align*}
+If \(a_k = 0\), then (\ref{sec2_f}) evaluates to
+\begin{align*}
+  f \left( 3^k \sum^\infty_{i = k + 1} 3^{-i - 1} (2a_i) \right) = 0
+\end{align*}
+If \(a_k = 1\), then (\ref{sec2_f}) evaluates to
+\begin{align*}
+  f \left( \frac{2}{3} + 3^k \sum^\infty_{i = k + 1} 3^{-i - 1} (2a_i) \right)
+  = 1
+\end{align*}
+Thus, \(f(3^k t_0) = a_k\) holds. Then we can write
+\begin{align*}
+  x(t_0)
+  &= \sum^\infty_{n = 1} 2^{-n} f(3^{2n - 1} t_0)
+  = \sum^\infty_{n = 1} 2^{-n} a_{2n - 1}
+  = x_0 \\
+  y(t_0)
+  &= \sum^\infty_{n = 1} 2^{-n} f(3^{2n} t_0)
+  = \sum^\infty_{n = 1} 2^{-n} a_{2n}
+  = y_0
+\end{align*}
+In conclusion, \(\Phi(t)\) maps the Cantor set onto \(I^2\). Since the Cantor
+set is a subset of \(I\), \(\Phi(t)\) maps \(I\) onto \(I^2\).
+
+\section{Chapter 7 \#15}
+Since \(\{f_n\}\) is equicontinuous in \([0, 1]\), for all \(\epsilon > 0\)
+there exists \(\delta > 0\) for all \(n\), \(|x - y| < \delta\) implies
+\(|f_n(x) - f_n(y)| < \epsilon\) for \(x \in [0, 1]\) and \(y \in [0, 1]\).
+Since \(|f_n(x) - f_n(y)| = |f(nx) - f(ny)|\), for all \(n\), there exists
+\(\delta' > 0\) such that \(|t - u| < \delta' = n\delta\) implies \(|f(t) -
+f(u)| < \epsilon\). In other words, \(f\) is uniformly continuous on \([0,
+n]\), for all \(n\), although the \(\delta'\) value is different for distinct
+\(n\).
+
+\section{Chapter 7 \#16}
+Fix \(\epsilon > 0\). As \(\{f_n\}\) is equicontinuous on \(K\), for all \(n\)
+there exists \(\delta > 0\) such that \(|x - y| < \delta\) implies \(|f_n(x) -
+f_n(y)| < \epsilon\) for \(x \in K\) and \(y \in K\). Since \(K\) is compact,
+there exists \(\{x_1, x_2, \dots, x_N\} \subset K\) such that \(\bigcup^N_{i =
+1} B(x_i, \delta) \supset K\), where \(B(p, r)\) is a open ball whose center is
+\(p\) and radius is \(r\). Since \(\{f_n(x)\}\) converges for all \(x \in K\),
+there exists \(M_i\) such that \(n \ge M_i\) and \(m \ge M_i\) implies
+\(|f_n(x_i) = f_m(x_i)| < \epsilon\), for \(i = 1, 2, \dots, N\). Consider \(x
+\in K\). There exists \(x_k \in \{x_1, \dots, x_N\}\) such that \(|x - x_k| <
+\delta\). Let \(M = \max\{M_1, \dots, M_N\}\). Then for \(n \ge M\) and \(m \ge
+M\), we can write
+\begin{align*}
+  |f_n(x) - f_m(x)|
+  \le |f_n(x) - f_n(x_k)| + |f_n(x_k) - f_m(x_k)| + |f_m(x_k) - f_m(x)|
+\end{align*}
+From \(|x - x_k| < \delta\), \(|f_n(x) - f_n(x_k)| < \epsilon\) and \(|f_m(x_k)
+- f_m(x)| < \epsilon\) holds. From \(n, m \ge M \ge M_k\), \(|f_n(x_k) -
+f_m(x_k)| < \epsilon\) holds. Thus, \(|f_n(x) - f_m(x)| < 3\epsilon\). Since
+our choice of \(\epsilon\) and \(x\) were arbitrary, by theorem~7.8,
+\(\{f_n\}\) converges uniformly on \(K\).
+
+\section{Chapter 7 \#18}
+Since \(\{f_n\}\) is uniformly bounded, there exists \(M \in \mathbb{R}\) such
+that \(|f_n(x)| \le M\) for all \(x \in [a, b]\) and \(n\). Fix \(\epsilon >
+0\) and let \(\delta = \epsilon / M\). Then we can write
+\begin{align*}
+  |F_n(x) - F_n(y)|
+  = \left| \int^y_x f_n(t) dt \right|
+  \le \left| \int^y_x |f_n(t)| dt \right|
+  \le M|x - y|
+  < M\delta
+  = \epsilon
+\end{align*}
+for all \(x \in [a, b]\), \(y \in [a, b]\) and \(n\). Thus, \(\{F_n\}\) is
+equicontinuous on \([a, b]\). Furthermore, we can also write
+\begin{align*}
+  |F_n(x)|
+  = \left| \int^x_a f_n(t) dt \right|
+  \le \int^x_a |f_n(t)| dt
+  \le \int^x_a M\; dt
+  = M(x - a)
+\end{align*}
+for all \(x \in [a, b]\). Thus, \(\{F_n\}\) is pointwise bounded on \([a, b]\).
+By theorem~6.20, \(F_n(x)\) is continuous on \([a, b]\) for all \(n\). In
+conclusion, we can apply theorem~7.25 on \(\{F_n\}\), so there exists a
+subsequence \(\{F_{n_k}\}\) which is uniformly convergent on \([a, b]\).
+
+\section{Chapter 7 \#25}
+\subsection{Solution for (a)}
+Following the hint, we know from the definition of \(f_n\) that
+\begin{align*}
+  |f'_n(t)| = |\phi(x_i, f_n(x_i))| \le M
+\end{align*}
+also, using the definition,
+\begin{align*}
+  |\Delta_n(t)|
+  = |f'_n(t) - \phi(t, f_n(t))|
+  \le |f'_n(t)| + |\phi(t, f_n(t))|
+  \le M + M
+  = 2M
+\end{align*}
+Since \(f'_n(t)\) and \(\phi(t, f_n(t))\) are continuous, \(\Delta_n(t)\) is
+also continuous so \(\Delta_n \in \mathscr{R}\).
+We can also write
+\begin{align*}
+  |f_n(x)|
+  &= \left| c + \int^x_0 (\phi(t, f_n(t)) + \Delta_n(t)) dt \right|
+  \le |c| + \left| \int^x_0 (\phi(t, f_n(t)) + \Delta_n(t)) dt \right| \\
+  &\le |c| + \int^x_0 |\phi(t, f_n(t)) + \Delta_n(t)| dt
+  = |c| + \int^x_0 |f'_n(t)| dt \\
+  &\le |c| + \int^1_0 |f'_n(t)| dt
+  \le |c| + M
+\end{align*}
+
+\subsection{Solution for (b)}
+Fix \(\epsilon > 0\). For \(x \in [0, 1]\) and \(y \in [0, 1]\), we can write
+\begin{align*}
+  |f_n(x) - f_n(y)|
+  &= \left| \int^y_x (\phi(t, f_n(t)) + \Delta_n(t)) dt \right|
+  = \left| \int^y_x f'_n(t) dt \right|
+  \le \left| \int^y_x |f'_n(t)| dt \right| \\
+  &\le M|x - y|
+\end{align*}
+Taking \(\delta = \epsilon / M\), \(|x - y| < \delta\) implies \(|f_n(x) -
+f_n(y)| \le \epsilon\), for all \(x \in [0, 1]\), \(y \in [0, 1]\) and \(n\).
+Thus, \(\{f_n\}\) is equicontinuous on \([0, 1]\).
+
+\subsection{Solution for (c)}
+As \([0, 1]\) is compact, \(f_n\) is continuous and bounded for all \(n\),
+\(\{f_n\}\) is pointwise bounded, and equicontinuous, by theorem~7.25,
+\(\{f_n\}\) contains a subsequence \(\{f_{n_k}\}\) which is uniformly
+convergent on \([0, 1]\).
+
+\subsection{Solution for (d)}
+Fix \(\epsilon > 0\). As \(\phi\) is continuous on the rectangle \(0 \le x \le
+1,\, |y| \le M_1\), \(\phi\) is uniformly continuous on the rectangle as the
+rectangle is compact. Thus, there exists \(\delta > 0\) such that \(d((x_1,
+y_1), (x_2, y_2)) < \delta\) implies \(|\phi(x_1, y_1) - \phi(x_2, y_2)| <
+\epsilon\) for \((x_1, y_1)\) and \((x_2, y_2)\) in the rectangle. (Here,
+\(d\) is a Euclidean norm.) Also, \(f_{n_k}\) converges uniformly to \(f\) on
+\([0, 1]\). Then, there exists some \(N \in \mathbb{N}\) such that \(k \ge N\)
+implies \(|f_{n_k}(t) - f(t)| < \delta\) for all \(t \in [0, 1]\), which is
+equivalent to \(d((t, f_{n_k}(t)), (t, f(t))) < \delta\). Combining these
+results, there exists \(N \in \mathbb{N}\) such that \(k \ge N\) implies
+\(|\phi(t, f_{n_k}(t)) - \phi(t, f_n(t))| < \epsilon\) for all \(t \in [0,
+1]\). Thus, \(\{\phi(t, f_{n_k}(t))\}\) converges uniformly to \(\phi(t,
+f(t))\) on \([0, 1]\).
+
+\subsection{Solution for (e)}
+Fix \(\epsilon > 0\). As described in the solution for (d), \(\phi\) is
+uniformly continuous on the rectangle. Thus, there exists \(\delta > 0\) such
+that \(d((x_1, y_1), (x_2, y_2)) < \delta\) implies \(|\phi(x_1, y_1) -
+\phi(x_2, y_2)| < \epsilon\) for all \((x_1, y_1)\) and \((x_2, y_2)\) in the
+rectangle. Also, \(f_n\) is continuous on \([0, 1]\) for all \(n\), so \(f_n\)
+is uniformly continuous on \([0, 1]\). By definition, \(|x_i - t| \ge 1 / n\)
+so there exists some \(N \in \mathbb{N}\) such that \(n \ge N\) implies
+\(|f_n(x_i) - f_n(t)| < \delta / \sqrt{2}\) and \(|x_i - t| < 1 / n < \delta /
+\sqrt{2}\). Then, we can write
+\begin{align*}
+  d((x_i, f_n(x_i)), (t, f_n(t)))
+  = \sqrt{(x_i - t)^2 + (f_n(x_i) - f_n(t))^2}
+  < \sqrt{\left( \frac{\delta}{\sqrt{2}} \right)^2
+    + \left( \frac{\delta}{\sqrt{2}} \right)^2}
+  = \delta
+\end{align*}
+Then, by the uniform continuity of \(\phi\), \(n \ge N\) implies
+\begin{align*}
+  |\Delta_n(t)|
+  = |\phi(x_i, f_n(x_i)) - \phi(t, f_n(t))|
+  < \epsilon
+\end{align*}
+for all \(t \in [0, 1]\). In conclusion, \(\{\Delta_n(t)\}\) converges
+uniformly to zero on \([0, 1]\).
+
+\subsection{Solution for (f)}
+\(\phi(t, f_{n_k}(t))\) and \(\Delta_n(t)\) uniformly converge to \(\phi(t,
+f(t))\) and zero respectively on \([0, 1]\). Also, \(\phi(t, f_{n_k}(t)) \in
+\mathscr{R}\) on \([0, 1]\) as it is continuous on \([0, 1]\) and we have
+proved that \(\Delta_n \in \mathscr{R}\) on \([0, 1]\) in (a). Then, by
+theorem~7.16, we can write
+\begin{align*}
+  \int^x_0 \phi(t, f(t)) dt
+  = \lim_{k \to \infty} \int^x_0 \phi(t, f_{n_k}(t)) dt
+\end{align*}
+and
+\begin{align*}
+  \lim_{k \to \infty} \int^x_0 \Delta_{n_k}(t) dt = 0
+\end{align*}
+Thus, we can write
+\begin{align*}
+  f(x)
+  = \lim_{k \to \infty} f_{n_k}(x)
+  = \lim_{k \to \infty} \left( c + \int^x_0 (\phi(t, f_{n_k}(t))
+    + \Delta_{n_k}(t)) dt \right)
+  = c + \int^x_0 \phi(t, f(t)) dt
+\end{align*}
+Differentiating both sides reveals the equation,
+\begin{align*}
+  f'(x) = \phi(x, f(x))
+\end{align*}
+and \(f(c) = 0\). Thus, \(f\) is a solution of the given problem.
+
+\end{document}
+% vim: textwidth=79
