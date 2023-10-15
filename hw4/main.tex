@@ -1,0 +1,526 @@
+\documentclass{scrartcl}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{blindtext}
+\usepackage{datetime}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{kotex}
+\usepackage{mathrsfs}
+\usepackage{mathtools}
+\usepackage{pgf,tikz,pgfplots}
+
+\pgfplotsset{compat=1.15}
+\usetikzlibrary{arrows}
+
+\newcommand\Overline[2][0.8pt]{%
+  \begin{tikzpicture}[baseline=(a.base)]
+    \node[inner xsep=0pt,inner ysep=1.5pt] (a) {$#2$};
+    \draw[line width= #1] (a.north west) -- (a.north east);
+  \end{tikzpicture}
+}
+\newtheorem{theorem}{Theorem}
+
+\setmainhangulfont{Noto Serif CJK KR}[
+  UprightFont=* Light, BoldFont=* Bold,
+  Script=Hangul, Language=Korean, AutoFakeSlant,
+]
+\setsanshangulfont{Noto Sans CJK KR}[
+  UprightFont=* DemiLight, BoldFont=* Medium,
+  Script=Hangul, Language=Korean
+]
+\setmathhangulfont{Noto Sans CJK KR}[
+  SizeFeatures={
+    {Size=-6,  Font=* Medium},
+    {Size=6-9, Font=*},
+    {Size=9-,  Font=* DemiLight},
+  },
+  Script=Hangul, Language=Korean
+]
+\title{MATH312: Homework 4 (due Oct. 15)}
+\author{손량(20220323)}
+\date{Last compiled on: \today, \currenttime}
+
+\newcommand{\un}[1]{\ensuremath{\ \mathrm{#1}}}
+\newcommand{\imag}{\operatorname{Im}}
+\newcommand{\real}{\operatorname{Re}}
+\newcommand{\Log}{\operatorname{Log}}
+\newcommand{\Arg}{\operatorname{Arg}}
+\DeclareMathOperator*{\Res}{Res}
+
+\begin{document}
+\maketitle
+
+\section{Chapter 8 \#12}
+\subsection{Solution for (a)}
+Let \(c_n\) be the Fourier coefficients of \(f\). For \(n \not = 0\), we can
+write
+\begin{align*}
+  c_n
+  &= \frac{1}{2\pi} \int^\pi_{-\pi} f(x) e^{-inx} dx
+  = \frac{1}{2\pi} \int^\delta_{-\delta} e^{inx} dx
+  = \frac{1}{2\pi} \left[ \frac{i}{n} e^{-inx} \right]^\delta_{-\delta} \\
+  &= \frac{i}{2n\pi} (e^{-in\delta} - e^{in\delta})
+  = \frac{i}{2n\pi} \cdot 2i\sin (-n\delta)
+  = \frac{\sin (n\delta)}{n\pi}
+\end{align*}
+For \(n = 0\), \(c_n = (1 / 2\pi) \int^\pi_{-\pi} f(x) dx = \delta / \pi\).
+
+\subsection{Solution for (b)}
+Let \(S_N[f]\) as follows:
+\begin{align*}
+  S_N[f](x) = \sum^N_{n = -N} c_n e^{inx}
+\end{align*}
+For \(|t| < \delta / 2\), \(|f(t) - f(0)| = 0\), so by theorem~8.14, we can
+write
+\begin{align*}
+  \lim_{N \to \infty} S_N[f](0)
+  = \lim_{N \to \infty} \sum^N_{n = -N} c_n
+  = \frac{\delta}{\pi} + 2\sum^\infty_{n = 1} \frac{\sin (n\delta)}{n\pi}
+  = 1
+\end{align*}
+Then, we can write
+\begin{align*}
+  \sum^\infty_{n = 1} \frac{\sin (n\delta)}{n}
+  = \frac{\pi - \delta}{2}
+\end{align*}
+
+\subsection{Solution for (c)}
+As \(f\) is Riemann-integrable, we can apply theorem~8.16. Then,
+\begin{align*}
+  \frac{1}{2\pi} \int^\pi_{-\pi} |f(x)|^2 dx
+  = \sum^{\infty}_{n = -\infty} |c_n|^2
+\end{align*}
+We can also write
+\begin{align*}
+  \frac{1}{2\pi} \int^\delta_{-\delta} 1\; dx
+  = \frac{\delta^2}{\pi^2} + 2\sum^\infty_{n = 1}
+    \left( \frac{\sin (n\delta)}{n\pi} \right)^2
+  = \frac{\delta}{\pi}
+\end{align*}
+In conclusion,
+\begin{align*}
+  \sum^\infty_{n = 1} \frac{\sin^2 (n\delta)}{n^2 \delta}
+  = \frac{\pi - \delta}{2}
+\end{align*}
+
+\subsection{Solution for (d)}
+Let \(g(x) = (\sin^2 x) / x^2\) for \(x > 0\), and \(h\) be a function defined
+as follows:
+\begin{align*}
+  h(x) = \begin{cases}
+    \left( \frac{\sin x}{x} \right)^2 & (x \not = 0) \\
+    1 & (x = 0)
+  \end{cases}
+\end{align*}
+Using the L'Hôpital's~rule, we know that \(\lim_{x \to 0} (\sin x) / x = 1\).
+Thus, \(h(x)\) is continuous at \(x = 0\). Then for all \(A > 0\), we can write
+\begin{align*}
+  \lim_{c \to 0} \int^A_c g(x) dx
+  = \int^A_0 h(x) dx - \lim_{c \to 0} \int^c_0 h(x) dx
+\end{align*}
+Then, as \(\int^t_0 h(x) dx\) is continuous on \([0, A]\), we can conclude that
+\begin{align*}
+  \int^A_0 g(x) dx
+  = \lim_{c \to 0} \int^A_c g(x) dx
+  = \int^A_0 h(x) dx
+\end{align*}
+Also, for \(t > A > 0\), we can write
+\begin{align*}
+  \int^t_A g(x) dx
+  \le \int^t_A \frac{dx}{x^2}
+  \le \frac{1}{A} - \frac{1}{t}
+  < \frac{1}{A}
+\end{align*}
+As \(g(x) \ge 0\) for all \(x\), the improper integral \(\int^\infty_A g(x)
+dx\) converges. Thus, the integral \(\int^\infty_0 g(x) dx\) exists.
+
+Fix \(\epsilon > 0\). Let \(A\) be a positive number. Then, \(h\) is uniformly
+continuous on \([0, A]\), so there exists \(\delta > 0\) such that \(|x - y| <
+\delta\) implies \(|f(x) - f(y)| < \epsilon\), for all \(x \in [0, A]\) and
+\(y \in [0, A]\). Now, take a partition \(P = \{x_0, x_1, \dots, x_n\} = \{0,
+\delta, 2\delta, \dots, (n - 1)\delta, A\}\). The lower and upper sum can be
+written as
+\begin{align*}
+  U(P, h)
+  = \sum^n_{i = 1} \Delta x_i \sup_{x \in [x_{i - 1}, x_i]} h(x), \quad
+  L(P, h)
+  = \sum^n_{i = 1} \Delta x_i \inf_{x \in [x_{i - 1}, x_i]} h(x)
+\end{align*}
+Then,
+\begin{align*}
+  U(P, h) - L(P, h)
+  &= \sum^n_{i = 1} \Delta x_i \left( \sup_{x \in [x_{i - 1}, x_i]} h(x)
+    - \inf_{x \in [x_{i - 1}, x_i]} h(x) \right) \\
+  &< \epsilon \sum^n_{i = 1} \Delta x_i
+  = A\epsilon
+\end{align*}
+From the definition of lower and upper sums, we can also write
+\begin{align*}
+  L(P, h)
+  \le \sum^{n - 1}_{i = 1} h(i\delta) \delta + h(A) (A - (m - 1)\delta)
+  \le U(P, h)
+\end{align*}
+Thus, we can write
+\begin{align*}
+  \left| \int^A_0 h(x) dx
+  - \sum^{n - 1}_{i = 1} \frac{\sin^2 (i\delta)}{i^2 \delta}
+  - h(A) (A - (m - 1)\delta) \right|
+  < A\epsilon
+\end{align*}
+and
+\begin{align*}
+  \left| \int^A_0 h(x) dx
+    - \sum^{n - 1}_{i = 1} h(i\delta) \delta \right|
+  < A\epsilon + |h(A) \delta|
+\end{align*}
+Thus, we can write
+\begin{align*}
+  \int^A_0 g(x) dx
+  = \lim_{\delta \to 0}
+    \sum^{n - 1}_{i = 1} \frac{\sin^2 (i\delta)}{i^2 \delta}
+\end{align*}
+In conclusion,
+\begin{align*}
+  \int^\infty_0 \left( \frac{\sin x}{x} \right)^2 dx
+  = \lim_{\delta \to 0} \sum^\infty_{i = 1} \frac{\sin^2 (i\delta)}{i^2 \delta}
+  = \lim_{\delta \to 0} \frac{\pi - \delta}{2}
+  = \frac{\pi}{2}
+\end{align*}
+
+\subsection{Solution for (e)}
+We obtain
+\begin{align*}
+  \sum^\infty_{n = 1} \frac{\sin^2 (n\pi / 2)}{\pi n^2 / 2}
+  = \sum^\infty_{n = 1} \frac{2}{\pi (2n - 1)^2}
+  = \frac{\pi}{4}
+\end{align*}
+which gives us
+\begin{align*}
+  \sum^\infty_{n = 1} \frac{1}{(2n - 1)^2}
+  = \frac{\pi^2}{8}
+\end{align*}
+
+\section{Chapter 8 \#13}
+First, let's calculate the Fourier coefficients. For \(n = 0\), as
+\(\int^\pi_{-\pi} x\; dx = 0\), \(c_0 = 0\). For \(n \not = 0\), we can write
+\begin{align*}
+  c_n
+  = \frac{1}{2\pi} \int^\pi_{-\pi} xe^{-inx} dx
+  = \frac{1}{2\pi} \left[ \frac{i}{n} xe^{-inx}
+    + \frac{1}{n^2} e^{-inx} \right]^\pi_{-\pi}
+  = \frac{i}{n} (-1)^n
+\end{align*}
+By Parseval's~theorem,
+\begin{align*}
+  \sum^\infty_{n = -\infty} c_n
+  = 2 \sum^\infty_{n = 1} \frac{1}{n^2}
+  = \frac{1}{2\pi} \int^\pi_{-\pi} |x|^2 dx
+  = \frac{1}{2\pi} \cdot \frac{2\pi^3}{3}
+  = \frac{\pi^2}{3}
+\end{align*}
+and we get the desired result:
+\begin{align*}
+  \sum^\infty_{n = 1} \frac{1}{n^2}
+  = \frac{\pi^2}{6}
+\end{align*}
+
+\section{Chapter 8 \#14}
+First, let's calculate the Fourier coefficients. For \(n = 0\),
+\begin{align*}
+  c_0
+  = \frac{1}{2\pi} \int^\pi_{-\pi} f(x) dx
+  = \frac{1}{2\pi} \int^\pi_{-\pi} (\pi - |x|)^2 dx
+  = \frac{1}{2\pi} \cdot \frac{2\pi^3}{3}
+  = \frac{\pi^2}{3}
+\end{align*}
+For \(n \not = 0\),
+\begin{align*}
+  c_n
+  &= \frac{1}{2\pi} \int^\pi_{-\pi} f(x) e^{-inx} dx
+  = \frac{1}{2\pi} \int^\pi_{-\pi} (\pi - |x|)^2 e^{-inx} dx
+  = \frac{1}{2\pi} \cdot \frac{2(2\pi n - ie^{-i\pi n} + ie^{i\pi n})}{n^3} \\
+  &= \frac{1}{2\pi} \cdot \frac{2(2\pi n - i(-1)^{-n} + i(-1)^n)}{n^3}
+  = \frac{2}{n^2}
+\end{align*}
+For \(x \in [-\pi, \pi]\) and \(x + t \in [-\pi, \pi]\), we can write
+\begin{align*}
+  |f(x + t) - f(x)|
+  &= |(\pi - |x + t|)^2 - (\pi - |x|)^2|
+  = |2\pi - |x + t| - |x|| ||x| - |x + t|| \\
+  &\le 2\pi |t|
+\end{align*}
+By theorem~8.14, for \(x \in [-\pi, \pi]\), we can write
+\begin{align*}
+  \lim_{N \to \infty} \sum^N_{n = -N} c_n e^{inx} = f(x)
+\end{align*}
+Then we can write
+\begin{align*}
+  f(x)
+  &= \frac{\pi^2}{3} + \sum^\infty_{n = 1} (c_n e^{inx} + c_{-n} e^{-inx})
+  = \frac{\pi^2}{3} + \sum^\infty_{n = 1} \frac{2}{n^2} (e^{inx} + e^{-inx}) \\
+  &= \frac{\pi^2}{3} + \sum^\infty_{n = 1} \frac{4}{n^2} \cos (nx)
+\end{align*}
+
+Plugging \(x = 0\), we immediately obtain
+\begin{align*}
+  f(0)
+  = \pi^2
+  = \frac{\pi^2}{3} + \sum^\infty_{n = 1} \frac{4}{n^2}
+\end{align*}
+so
+\begin{align*}
+  \sum^\infty_{n = 1} \frac{1}{n^2} = \frac{\pi^2}{6}
+\end{align*}
+
+By Parseval's~theorem, we can write
+\begin{align*}
+  \sum^\infty_{n = -\infty} |c_n|^2
+  &= \frac{\pi^4}{9} + 2\sum^\infty_{n = 1} \frac{4}{n^4}
+  = \frac{1}{2\pi} \int^\pi_{-\pi} |f(x)|^2 dx
+  = \frac{1}{2\pi} \int^\pi_{-\pi} (\pi - |x|)^4 dx \\
+  &= \frac{1}{\pi} \int^\pi_0 (\pi - x)^4 dx
+  = \frac{1}{\pi} \left[ -\frac{1}{5} (\pi - x)^5 \right]^\pi_0
+  = \frac{\pi^4}{5}
+\end{align*}
+so
+\begin{align*}
+  \sum^\infty_{n = 1} \frac{1}{n^4}
+  = \frac{\pi^4}{90}
+\end{align*}
+
+\section{Chapter 8 \#15}
+We can write
+\begin{align*}
+  K_N(x)
+  &= \frac{1}{N + 1} \sum^N_{n = 0} D_n(x)
+  = \frac{1}{N + 1} \frac{1}{\sin (\pi / 2)} \frac{e^{ix / 2}}{2i}
+    \sum^N_{n = 0} (\exp (inx) - \exp (-i(n + 1)x)) \\
+  &= \frac{1}{N + 1} \frac{1}{\sin (\pi / 2)} \frac{e^{ix / 2}}{2i}
+    \left( \frac{(e^{ix})^{N + 1} - 1}{e^{ix} - 1}
+      - \frac{1}{e^{ix}} \frac{(e^{-ix})^{N + 1} - 1}{e^{-ix} - 1} \right) \\
+  &= \frac{1}{N + 1} \frac{1}{\sin (\pi / 2)} \frac{e^{ix / 2}}{2i}
+    \frac{2\cos ((N + 1)x) - 2}{e^{ix} - 1}
+  = \frac{1}{N + 1} \frac{2 - 2\cos ((N + 1)x)}{(e^{ix / 2} - e^{-ix / 2})^2}
+  \\
+  &= \frac{1}{N + 1} \frac{1 - \cos ((N + 1)x)}{1 - \cos x}
+\end{align*}
+
+If \(x = 0\), then \(D_n(x) = 1\) for all \(n\) so \(K_N(x) = 1\). Otherwise,
+since \(|\cos x| \le 1\) and \(\cos x \not = 1\), it is evident that \(K_N(x)
+\ge 0\). Also, as \(\int^\pi_{-\pi} D_n(x) dx = 2\pi\) for all \(n\), we can
+write
+\begin{align*}
+  \frac{1}{2\pi} \int^\pi_{-\pi} K_N(x) dx
+  = \frac{1}{N + 1} \sum^N_{n = 0} \frac{1}{2\pi} \int^\pi_{-\pi} D_n(x) dx
+  = \frac{1}{N + 1} \cdot (N + 1)
+  = 1
+\end{align*}
+We can also write
+\begin{align*}
+  K_N(x) \le \frac{1}{N + 1} \frac{2}{1 - \cos x}
+\end{align*}
+and for \(0 < \delta \le |x| \le \pi\), \(\cos \delta \ge \cos x\), so
+\begin{align*}
+  K_N(x) \le \frac{1}{N + 1} \frac{2}{1 - \cos \delta}
+\end{align*}
+
+We can write
+\begin{align*}
+  \sigma_N(f; x)
+  &= \frac{1}{2\pi} \int^\pi_{-\pi} f(x - t) K_N(t) dt
+  = \frac{1}{2\pi} \int^\pi_{-\pi} f(x - t)
+    \cdot \frac{1}{N + 1} \sum^N_{n = 0} D_n(t) dt \\
+  &= \frac{1}{N + 1}
+    \sum^N_{n = 0} \frac{1}{2\pi} \int^\pi_{-\pi} f(x - t) D_n(t) dt
+  = \frac{1}{N + 1} \sum^N_{n = 0} s_n
+\end{align*}
+
+Now let's prove Fejér's~theorem. Since \(f\) is continuous on \([-\pi, \pi]\),
+it is uniformly continuous on the interval. Fix \(\epsilon > 0\). There exists
+\(\delta > 0\) such that \(|x - y| < \delta\) implies \(|f(x) - f(y)| <
+\epsilon\) for all \(x \in [-\pi, \pi]\) and \(y \in [-\pi, \pi]\). Then using
+the properties we have proven earlier, we can write
+\begin{align*}
+  |\sigma_N(f; x) - f(x)|
+  &= \left| \frac{1}{2\pi} \int^\pi_{-\pi} f(x - t) K_N(t) dt - f(x) \right| \\
+  &= \frac{1}{2\pi} \left| \int^\pi_{-\pi} (f(x - t) - f(x)) K_N(t) dt \right|
+  \le \frac{1}{2\pi} \int^\pi_{-\pi} |f(x - t) - f(x)| K_N(t) dt \\
+  &= \frac{1}{2\pi} \int^{-\delta}_{-\pi} |f(x - t) - f(x)| K_N(t) dt
+    + \frac{1}{2\pi} \int^\delta_{-\delta} |f(x - t) - f(x)| K_N(t) dt \\
+  &+ \frac{1}{2\pi} \int^\pi_{\delta} |f(x - t) - f(x)| K_N(t) dt
+\end{align*}
+Let \(M = \sup |f(x)|\). Since \(K_N(x)\) is even function we can write
+\begin{align*}
+  |\sigma_N(f; x) - f(x)|
+  &< \frac{1}{2\pi} \left( \epsilon \int^\delta_{-\delta} K_N(t) dt
+    + 4M \int^\pi_\delta K_N(t) dt \right) \\
+  &\le \frac{1}{2\pi} \left(
+    4M \cdot \frac{\pi}{N + 1} \cdot \frac{2}{1 - \cos \delta}
+    + \epsilon \cdot 2\pi
+  \right)
+  = \frac{4M}{N + 1} \cdot \frac{1}{1 - \cos \delta} + \epsilon
+\end{align*}
+By taking sufficiently large \(N\), we can make \(4M / (N + 1) \cdot (1 - \cos
+\delta)^{-1}\) as small as we like, preferrably less than \(\epsilon\). Since
+our choice of \(\epsilon\) was arbitrary, \(\sigma_N(f; x)\) converges to \(f\)
+uniformly.
+
+\section{Chapter 8 \#17}
+\subsection{Solution for (a)}
+Suppose that \(f\) is a monotonically increasing function. Then, by the result
+from the exercise~17 of chapter~6, we can write
+\begin{align*}
+  c_n
+  = \frac{1}{2\pi} \int^\pi_{-\pi} f(x) e^{-inx} dx
+  = \frac{1}{2\pi} \left( \frac{i}{n} e^{-in\pi} f(\pi)
+    - \frac{i}{n} e^{in\pi} f(-\pi)
+    - \int^\pi_{-\pi} \frac{i}{n} e^{-inx} df \right)
+\end{align*}
+from this,
+\begin{align*}
+  nc_n
+  = \frac{i}{2\pi} \left( e^{-in\pi} f(\pi) - e^{in\pi} f(-\pi)
+    - \int^\pi_{-\pi} e^{-inx} df \right)
+\end{align*}
+and we can write
+\begin{align*}
+  |nc_n|
+  &\le \frac{1}{2\pi} \left( |e^{-inx}| |f(\pi) - e^{2in\pi} f(-\pi)|
+    + \left| \int^\pi_{-\pi} e^{-inx} df \right| \right) \\
+  &\le \frac{1}{2\pi} \left( |f(\pi) - f(-\pi)|
+    + \left| \int^\pi_{-\pi} df \right| \right)
+  = \frac{1}{\pi} |f(\pi) - f(-\pi)|
+\end{align*}
+If \(f\) is monotonically decreasing, we can write
+\begin{align*}
+  c_n
+  = \frac{1}{2\pi} \int^\pi_{-\pi} f(x) e^{-inx} dx
+  = \frac{1}{2\pi} \left( -\frac{i}{n} e^{-in\pi} (-f(\pi))
+    + \frac{i}{n} e^{in\pi} (-f(-\pi))
+    - \int^\pi_{-\pi} -\frac{i}{n} e^{-inx} d(-f) \right)
+\end{align*}
+and
+\begin{align*}
+  nc_n
+  = -\frac{i}{2\pi} \left( e^{-in\pi} f(\pi) - e^{in\pi} f(-\pi)
+    - \int^\pi_{-\pi} e^{-inx} d(-f) \right)
+\end{align*}
+so
+\begin{align*}
+  |nc_n|
+  &= \frac{1}{2\pi} \left( |e^{-in\pi}| |f(\pi) - e^{2in\pi} f(-\pi)|
+    + \left| \int^\pi_{-\pi} e^{-inx} d(-f) \right| \right) \\
+  &\le \frac{1}{2\pi} \left( |f(\pi) - f(-\pi)|
+    + \left| \int^\pi_{-\pi} d(-f) \right| \right)
+  = \frac{1}{\pi} |f(\pi) - f(-\pi)|
+\end{align*}
+so \(\{nc_n\}\) is bounded in both cases.
+
+\subsection{Solution for (b)}
+Since \(f\) is monotonic function, by theorem~4.29, \(f(x+)\) and \(f(x-)\)
+exists for all \(x\). By the result of the exercise~16, for every \(x\),
+\begin{align*}
+  \lim_{N \to \infty} \sigma_N(f; x)
+  = \frac{1}{2} (f(x+) + f(x-))
+\end{align*}
+As \(\{nc_n\}\) is bounded, \(|n(s_n - s_{n - 1})| = |nc_n|\) is bounded. Then,
+as \(\sigma_N(f; x)\) converges to \((f(x+) + f(x-)) / 2\) for all \(x\), by
+the result of the exercise~14(e) of chapter~3, \(s_N(f; x)\) also converges to
+\((f(x+) + f(x-)) / 2\) for all \(x\).
+
+\subsection{Solution for (c)}
+Let \(g\) be defined as follows:
+\begin{align*}
+  g(x) = \begin{cases}
+    f(\alpha) & (-\pi \le x \le \alpha) \\
+    f(x) & (\alpha < x < \beta) \\
+    f(\beta) & (\beta \le x < \pi)
+  \end{cases}
+\end{align*}
+Then \(g\) is bounded and monotonic on \([-\pi, \pi)\). Thus, for all \(x\), we
+can write
+\begin{align*}
+  \lim_{N \to \infty} s_N(g; x)
+  = \frac{1}{2} (g(x+) + g(x-))
+\end{align*}
+As \(f(x) = g(x)\) for all \(x \in (\alpha, \beta)\), by the
+localizztion~theorem, we can write
+\begin{align*}
+  \lim_{N \to \infty} s_N(f; x)
+  = \lim_{N \to \infty} s_N(g; x)
+  = \frac{1}{2} (g(x+) + g(x-))
+  = \frac{1}{2} (f(x+) + f(x-))
+\end{align*}
+
+\section{Chapter 8 \#19}
+Consider \(f(x) = e^{ikx}\), where \(k\) is integer. If \(k = 0\), then \(f(x)
+= 1\) so the equality holds. If \(k \not = 0\), we can write
+\begin{align*}
+  \frac{1}{N} \sum^N_{i = 1} f(x + n\alpha)
+  = \frac{1}{N} \sum^N_{i = 1} e^{ik(x + n\alpha)}
+  = \frac{e^{ikx}}{N} \sum^N_{i = 1} e^{ikn\alpha}
+  = \frac{e^{ik(x + \alpha)}}{N} \frac{(e^{ik\alpha})^N - 1}{e^{ik\alpha} - 1}
+\end{align*}
+then,
+\begin{align*}
+  \left| \frac{1}{N} \sum^N_{i = 1} f(x + n\alpha) \right|
+  &= \left| \frac{e^{ik(x + \alpha)}}{N}
+    \frac{(e^{ik\alpha})^N - 1}{e^{ik\alpha} - 1} \right|
+  = \left| \frac{1}{N} \right|
+    \left| \frac{(e^{ik\alpha})^N - 1}{e^{ik\alpha} - 1} \right|
+  \le \left| \frac{1}{N} \right|
+    \frac{|(e^{ik\alpha})^N| + 1}{|e^{ik\alpha} - 1|} \\
+  &= \left| \frac{1}{N} \right| \frac{2}{|e^{ik\alpha} - 1|}
+\end{align*}
+As \(k\alpha\) cannot be integer multiple of \(\pi\), \(e^{ik\alpha} \not =
+1\). Thus, we can take \(N \to \infty\) limit and by sandwich~theorem,
+\begin{align*}
+  \lim_{N \to \infty} \frac{1}{N} \sum^N_{i = 1} f(x + n\alpha)
+  = 0
+\end{align*}
+On the other hand, the integral evaluates to
+\begin{align*}
+  \frac{1}{2\pi} \int^\pi_{-\pi} f(t) dt
+  = \frac{1}{2\pi} \int^\pi_{-\pi} e^{ikt} dt
+  = \frac{1}{2\pi} \left[ -\frac{i}{k} e^{ikt} \right]^\pi_{-\pi}
+  = 0
+\end{align*}
+thus the theorem holds for \(f(x) = e^{ikx}\).
+
+Fix \(\epsilon > 0\). By theorem~8.15, there exists a trigonometric polynomial
+\(P\) such that \(|P(x) - f(x)| < \epsilon\) for all \(x\). Also, as \(P(x)\)
+is a linear combination of \(e^{ikx}\) where \(k\) is some integer, there
+exists \(M \in \mathbb{N}\) such that \(N \ge M\) implies
+\begin{align*}
+  \left| \frac{1}{N} \sum^N_{i = 1} P(x + n\alpha)
+    - \frac{1}{2\pi} \int^\pi_{-\pi} P(t) dt \right|
+  < \epsilon
+\end{align*}
+Then,
+\begin{align*}
+  \left| \frac{1}{N} \sum^N_{i = 1} f(x + n\alpha)
+    - \frac{1}{2\pi} \int^\pi_{-\pi} f(t) dt \right|
+  &\le \left| \frac{1}{N} \sum^N_{i = 1} (f(x + n\alpha) - P(x + n\alpha))
+    - \frac{1}{2\pi} \int^\pi_{-\pi} (f(t) - P(t)) dt \right| \\
+  &+ \left| \frac{1}{N} \sum^N_{i = 1} P(x + n\alpha)
+    - \frac{1}{2\pi} \int^\pi_{-\pi} P(t) dt \right| \\
+  &\le \left| \frac{1}{N} \sum^N_{i = 1}
+    (f(x + n\alpha) - P(x + n\alpha)) \right| \\
+  &+ \left| \frac{1}{2\pi} \int^\pi_{-\pi} (f(t) - P(t)) dt \right| \\
+  &+ \left| \frac{1}{N} \sum^N_{i = 1} P(x + n\alpha)
+    - \frac{1}{2\pi} \int^\pi_{-\pi} P(t) dt \right| \\
+  &\le \frac{1}{N} \sum^N_{i = 1}
+    |f(x + n\alpha) - P(x + n\alpha)| \\
+  &+ \frac{1}{2\pi} \int^\pi_{-\pi} |f(t) - P(t)| dt \\
+  &+ \left| \frac{1}{N} \sum^N_{i = 1} P(x + n\alpha)
+    - \frac{1}{2\pi} \int^\pi_{-\pi} P(t) dt \right|
+  < 3\epsilon
+\end{align*}
+Since the choice of \(\epsilon\) was arbitrary, we can conclude that the
+equality holds for all continuous and \(2\pi\)-periodic function \(f\).
+
+\end{document}
+% vim: textwidth=79
