@@ -1,0 +1,470 @@
+\documentclass{scrartcl}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{blindtext}
+\usepackage{datetime}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{kotex}
+\usepackage{mathrsfs}
+\usepackage{mathtools}
+\usepackage{pgf,tikz,pgfplots}
+
+\pgfplotsset{compat=1.15}
+\usetikzlibrary{arrows}
+
+\newcommand\Overline[2][0.8pt]{%
+  \begin{tikzpicture}[baseline=(a.base)]
+    \node[inner xsep=0pt,inner ysep=1.5pt] (a) {$#2$};
+    \draw[line width= #1] (a.north west) -- (a.north east);
+  \end{tikzpicture}
+}
+\newtheorem{theorem}{Theorem}
+
+\setmainhangulfont{Noto Serif CJK KR}[
+  UprightFont=* Light, BoldFont=* Bold,
+  Script=Hangul, Language=Korean, AutoFakeSlant,
+]
+\setsanshangulfont{Noto Sans CJK KR}[
+  UprightFont=* DemiLight, BoldFont=* Medium,
+  Script=Hangul, Language=Korean
+]
+\setmathhangulfont{Noto Sans CJK KR}[
+  SizeFeatures={
+    {Size=-6,  Font=* Medium},
+    {Size=6-9, Font=*},
+    {Size=9-,  Font=* DemiLight},
+  },
+  Script=Hangul, Language=Korean
+]
+\title{MATH312: Homework 6 (due Nov. 15)}
+\author{손량(20220323)}
+\date{Last compiled on: \today, \currenttime}
+
+\newcommand{\un}[1]{\ensuremath{\ \mathrm{#1}}}
+\newcommand{\imag}{\operatorname{Im}}
+\newcommand{\real}{\operatorname{Re}}
+\newcommand{\Log}{\operatorname{Log}}
+\newcommand{\Arg}{\operatorname{Arg}}
+\DeclareMathOperator*{\Res}{Res}
+
+\begin{document}
+\maketitle
+
+\section{Chapter 9 \#16}
+Using the given example, we can write
+\begin{align*}
+  f'(t)
+  = 1 + 4t \sin \left( \frac{1}{t} \right) - 2 \cos \left( \frac{1}{t} \right)
+\end{align*}
+for \(t \not = 0\). Also,
+\begin{align*}
+  f'(0)
+  &= \lim_{h \to 0} \frac{f(h) - f(0)}{h}
+  = \lim_{h \to 0} \frac{f(h)}{h}
+  = \lim_{h \to 0}
+    \frac{1}{h} \left( h + 2h^2 \sin \left( \frac{1}{h} \right) \right) \\
+  &= \lim_{h \to 0} \left( 1 + 2h \sin \left( \frac{1}{h} \right) \right)
+\end{align*}
+As \(|h\sin (1 / h)| \le |h|\) for all \(h\), \(\lim_{h \to 0} h \sin (1 / h) =
+0\) by sandwich theorem. Thus, \(f'(0) = 1\). By using triangle inequality, for
+\(t \not = 0\),
+\begin{align*}
+  |f'(t)|
+  = \left| t + 2t^2 \sin \left( \frac{1}{t} \right) \right|
+  \le |t| + 2t^2 \left| \sin \left( \frac{1}{t} \right) \right|
+  \le |t| + 2t^2
+\end{align*}
+Since \(|t| + 2t^2\) is a continuous function, it is bounded in \([-1, 1]\) so
+it is also bounded in \((-1, 1) \setminus \{0\}\). Since \(f'(0) = 1\), we know
+that \(f'\) is bounded in \((-1, 1)\). Now, consider two sequences, \(\{a_n\}\)
+and \(\{b_n\}\) such that \(a_n = 1 / (2n\pi)\) and \(b_n = 2 / [(1 + 4n)
+\pi]\). Then, for \(n \ge 1\),
+\begin{align*}
+  f'(a_n)
+  &= 1 + \frac{2}{n\pi} \sin (2n\pi) - 2 \cos (2n\pi)
+  = -1 \\
+  f'(b_n)
+  &= 1 + \frac{8}{(4n + 1)\pi} \sin \left( \frac{(4n + 1)\pi}{2} \right)
+    - 2 \cos \left( \frac{(4n + 1)\pi}{2} \right)
+  = 1 + \frac{8}{(4n + 1)\pi}
+\end{align*}
+Then, \(\lim_{n \to \infty} f'(a_n) = -1\) and \(\lim_{n \to \infty} f'(b_n) =
+1\). However, since \(a_n\) and \(b_n\) converges to zero as \(n \to \infty\),
+\(f'(t)\) is not continuous at \(t = 0\). Suppose that there exists an open set
+\(U \subset \mathbb{R}\) such that \(0 \in U\), \(f: U \to V\) is one-to-one
+and \(V = f(U)\). Then, \(f\) must be strictly increasing or decreasing. Since
+\(U\) is open, there exists \(r > 0\) such that \((-r, r) \subset U\). Fix \(x
+\in (0, r)\). Then, as \(f\) is one-to-one, \(f(x) \not = f(0)\) holds and one
+of \(f(x) > f(0)\) and \(f(x) < f(0)\) holds. Consider the \(f(x) > f(0)\)
+case. As \(a_n \to 0\) as \(n \to \infty\), there exists \(k \in \mathbb{N}\)
+such that \(0 < a_k < x\). As \(f'\) is continuous on \((0, r)\), there exists
+some open ball \(B(a_k, s) \subset (0, r)\) with radius \(s > 0\) which is
+centered at \(a_k\) such that for all \(z \in B(a_k, s)\), \(f'(z) < 0\) holds.
+Then, \(f\) is strictly decreasing in \(B(a_k, s)\), so \(f\) is not strictly
+monotonic in \((-r, r)\), which is a contradiction. For \(f(x) < f(0)\) case,
+there exists \(B(b_k, s) \subset (0, r)\) such that \(f'(z) > 0\) holds for all
+\(z \in B(b_k, s)\), so \(f\) is not strictly monotonic in \((-r, r)\), which
+is also a contradiction. Thus, \(f\) cannot be one-to-one in \(U\) so such
+\(U\) cannot exist.
+
+From this, we can conclude that the continuity of \(f'\) at one point is needed
+for inverse function theorem to hold.
+
+\section{Chapter 9 \#17}
+\subsection{Solution for (a)}
+Take \((a, b) \not = (0, 0)\), let \(r = \sqrt{a^2 + b^2}\). Then, for \(a / r,
+b / r\), \((a / r)^2 + (b / r)^2 = 1\) so \((a / r, b / r)\) is a point on unit
+circle centered at \((0, 0)\). Then, there exists \(y\) such that \((\cos y,
+\sin y) = (a / r, b / r)\). Also, as \(r > 0\), by taking \(x = \log r\),
+\(e^x = r\) and \(f_1(x, y) = a, f_2(x, y) = b\) holds. Thus, \((a, b)\) is in
+the range of \(\mathbf{f}\). Since the choice of \((a, b)\) was arbitrary, the
+range of \(\mathbf{f}\) contains all \((a, b) \not = (0, 0)\). If \(f_1(x, y) =
+0\), \(e^x > 0\) so \(\cos y = 0\), then \(\sin y \not = 0\) so \(f_2(x, y)
+\not = 0\). From this, we know that there is no \(x, y\) such that
+\(\mathbf{f}(x, y) = (0, 0)\). In conclusion, the range of \(\mathbf{f}\) is
+\(\mathbb{R}^2 \setminus \{(0, 0)\}\).
+
+\subsection{Solution for (b)}
+Since the partial derivatives of \(\mathbf{f}\) exist and are continuous,
+\(\mathbf{f}\) is continuously differentiable. Then for \(\mathbf{x} = (x_1,
+x_2)\), we can write
+\begin{align*}
+  \mathbf{f}'(\mathbf{x})
+  = \begin{pmatrix}
+    (D_1 f_1) (\mathbf{x}) & (D_2 f_1) (\mathbf{x}) \\
+    (D_1 f_2) (\mathbf{x}) & (D_2 f_2) (\mathbf{x})
+  \end{pmatrix}
+  = \begin{pmatrix}
+    e^{x_1} \cos x_2 & -e^{x_1} \sin x_2 \\
+    e^{x_1} \sin x_2 & e^{x_1} \cos x_2
+  \end{pmatrix}
+\end{align*}
+Then the Jacobian can be written as
+\begin{align*}
+  J_\mathbf{f}(\mathbf{x})
+  = \det \mathbf{f}'(\mathbf{x})
+  = \det \begin{pmatrix}
+    e^{x_1} \cos x_2 & -e^{x_1} \sin x_2 \\
+    e^{x_1} \sin x_2 & e^{x_1} \cos x_2
+  \end{pmatrix}
+  = e^{2x_1}
+\end{align*}
+Since \(e^{x_1} > 0\) for all \(x_1 \in \mathbb{R}\), the Jacobian is not zero
+at any point of \(\mathbb{R}^2\). This implies that \(\mathbf{f}'(\mathbf{x})\)
+is invertible everywhere. By inverse function theorem, for all \(\mathbf{x} \in
+\mathbb{R}^2\), there exists a neighborhood of \(\mathbf{x}\) in which
+\(\mathbf{f}\) is one-to-one. However, as \(\mathbf{f}(0, 0) = \mathbf{f}(0,
+2\pi) = (1, 0)\), \(\mathbf{f}\) is not one-to-one on \(\mathbb{R}^2\).
+
+\subsection{Solution for (c)}
+Write \(\mathbf{g}\) as follows:
+\begin{align*}
+  \mathbf{g}(\mathbf{y})
+  = (g_1(\mathbf{y}), g_2(\mathbf{y}))
+  = \left( \log \sqrt{y^2_1 + y^2_2},
+    \arctan \left( \frac{y_2}{y_1} \right) \right)
+\end{align*}
+where \(\mathbf{y} = (y_1, y_2) \in (0, \infty)^2\), and \(\arctan x\) is the
+inverse of \(\tan: (-\pi / 2, \pi / 2) \to \mathbb{R}\). Then, for all
+\(\mathbf{x} = (x_1, x_2) \in \mathbb{R} \times (0, \pi / 2)\), we can write
+\begin{align*}
+  \mathbf{g}(\mathbf{f}(\mathbf{x}))
+  = \mathbf{g}(e^{x_1} \cos x_2, e^{x_1} \sin x_2)
+  = \left( \log \sqrt{e^{2x_1}},
+    \arctan \left( \frac{\sin x_2}{\cos x_2} \right) \right)
+  = (x_1, x_2)
+\end{align*}
+so \(\mathbf{g}\) is an inverse of \(\mathbf{f}: \mathbb{R} \times (0, \pi / 2)
+\to (0, \infty)^2\). Since \(\mathbf{b} = \mathbf{f}(\mathbf{a}) = (1/2,
+\sqrt{3}/2) \in (0, \infty)^2\) and \((0, \infty)^2\) is open, \(\mathbf{g}\)
+is defined in a neighborhood of \(\mathbf{b}\). Let \(\mathbf{b} = (b_1, b_2)\)
+then
+\begin{align*}
+  \mathbf{f}'(\mathbf{a})
+  &= \begin{pmatrix}
+    e^0 \cos (\pi / 3) & -e^0 \sin (\pi / 3) \\
+    e^0 \sin (\pi / 3) & e^0 \cos (\pi / 3)
+  \end{pmatrix}
+  = \begin{pmatrix}
+    1 / 2 & -\sqrt{3} / 2 \\
+    \sqrt{3} / 2 & 1 / 2
+  \end{pmatrix} \\
+  \mathbf{g}'(\mathbf{b})
+  &= \begin{pmatrix}
+    (D_1 g_1) (\mathbf{b}) & (D_2 g_1) (\mathbf{b}) \\
+    (D_1 g_2) (\mathbf{b}) & (D_2 g_2) (\mathbf{b})
+  \end{pmatrix}
+  = \begin{pmatrix}
+    b_1 / (b^2_1 + b^2_2) & b_2 / (b^2_1 + b^2_2) \\
+    -b_2 / (b^2_1 + b^2_2) & b_1 / (b^2_1 + b^2_2)
+  \end{pmatrix}
+  = \begin{pmatrix}
+    1 / 2 & \sqrt{3} / 2 \\
+    -\sqrt{3} / 2 & 1 / 2
+  \end{pmatrix}
+\end{align*}
+Since we can write
+\begin{align*}
+  \mathbf{g}'(\mathbf{b}) \mathbf{f}'(\mathbf{a})
+  = \begin{pmatrix}
+    1 / 2 & \sqrt{3} / 2 \\
+    -\sqrt{3} / 2 & 1 / 2
+  \end{pmatrix} \begin{pmatrix}
+    1 / 2 & -\sqrt{3} / 2 \\
+    \sqrt{3} / 2 & 1 / 2
+  \end{pmatrix}
+  = \begin{pmatrix}
+    1 & 0 \\
+    0 & 1
+  \end{pmatrix}
+\end{align*}
+so the formula is verified.
+
+\subsection{Solution for (d)}
+For constant value of \(x\), \(\mathbf{f}(x, y)\) gives a circle centered on
+\((0, 0)\) with radius \(e^x\), parametrized by \(y\). Thus, the images of
+lines parallel to \(y\) axis are circles. For constant value of \(y\),
+\(\mathbf{f}(x, y)\) gives a ray with its initial point at \((0, 0)\) removed,
+forming an angle of \(y\). Thus, the image of lines parallel to \(x\) axis are
+rays with with its initial point removed.
+
+\section{Chapter 9 \#18}
+Let \(\mathbf{f}(x, y) = (u(x, y), v(x, y))\).
+
+\subsection{Solution for (a)}
+We can write
+\begin{align*}
+  u + iv = (x + iy)^2
+\end{align*}
+Then, for all \((a, b) \in \mathbb{R}^2\), the fundamental theorem of algebra
+implies that there exists some \(z \in \mathbb{C}\) such that \(z^2 = a + bi\)
+holds. By taking \(x = \real z, y = \imag z\), \(\mathbf{f}(x, y) = (a, b)\) so
+\((a, b)\) is in the range of \(\mathbf{f}\).
+
+\subsection{Solution for (b)}
+Since the partial derivatives of \(\mathbf{f}\) exist and are continuous,
+\(\mathbf{f}\) is continuously differentiable. For \(\mathbf{x} = (x_1, x_2)
+\in \mathbb{R}^2\), we can write
+\begin{align*}
+  \mathbf{f}'(\mathbf{x})
+  = \begin{pmatrix}
+    (D_1 u) (\mathbf{x}) & (D_2 u) (\mathbf{x}) \\
+    (D_1 v) (\mathbf{x}) & (D_2 v) (\mathbf{x})
+  \end{pmatrix}
+  = \begin{pmatrix}
+    2x_1 & -2x_2 \\
+    2x_2 & 2x_1
+  \end{pmatrix}
+\end{align*}
+Then the Jacobian can be calculated as
+\begin{align*}
+  J_\mathbf{f}(\mathbf{x})
+  = \det \mathbf{f}'(\mathbf{x})
+  = \det \begin{pmatrix}
+    2x_1 & -2x_2 \\
+    2x_2 & 2x_1
+  \end{pmatrix}
+  = 4x^2_1 + 4x^2_2
+\end{align*}
+From this, we can know that the Jacobian is nonzero everywhere except \((0,
+0)\). Thus, \(\mathbf{f}'(\mathbf{x})\) is invertible everywhere except \((0,
+0)\). Thus, by inverse function theorem for all \(\mathbf{x} \in
+\mathbb{R}^2 \setminus \{(0, 0)\}\), there exists some neighborhood of
+\(\mathbf{x}\) in which \(\mathbf{f}\) is one-to-one. However, as
+\(\mathbf{f}(1, 0) = \mathbf{f}(-1, 0) = 1\) so \(\mathbf{f}\) is not
+one-to-one in \(\mathbb{R}^2\).
+
+\subsection{Solution for (c)}
+Here, let's use \(\mathbf{a} = (2, 1)\) and \(\mathbf{b} =
+\mathbf{f}(\mathbf{a}) = (3, 4)\). Write \(\mathbf{g}\) as follows:
+\begin{align*}
+  \mathbf{g}(u, v)
+  &= \left( (u^2 + v^2)^{1/4}
+    \cos \left( \frac{1}{2} \arctan \frac{v}{u} \right),
+    (u^2 + v^2)^{1/4}
+    \sin \left( \frac{1}{2} \arctan \frac{v}{u} \right) \right) \\
+  &= (g_1(u, v), g_2(u, v))
+\end{align*}
+where \((u, v) \in (0, \infty)^2\) and \(\arctan x\) is the inverse of \(\tan:
+(-\pi / 2, \pi / 2) \to \mathbb{R}\). Then, for all \(\mathbf{x} = (x_1, x_2)
+\in U\), where \(U = \{(x, y)\; |\; 0 < y < x, x \in (0, \infty)\}\), we can
+write
+\begin{align*}
+  \mathbf{g}(\mathbf{f}(\mathbf{x}))
+  &= \sqrt{x^2_1 + x^2_2}
+    \left(
+      \sqrt{\frac{1 + \left( 1 + \frac{v^2}{u^2} \right)^{-1/2}}{2}},
+      \sqrt{\frac{1 - \left( 1 + \frac{v^2}{u^2} \right)^{-1/2}}{2}}
+    \right) \\
+  &= \sqrt{x^2_1 + x^2_2}
+    \left(
+      \sqrt{\frac{x^2_1}{x^2_1 + x^2_2}},
+      \sqrt{\frac{x^2_2}{x^2_1 + x^2_2}}
+    \right)
+  = (x_1, x_2)
+\end{align*}
+so \(\mathbf{g}\) is indeed an inverse of \(\mathbf{f}: U \to V\), where \(V =
+(0, \infty)^2\). Then, we can write
+\begin{align*}
+  \mathbf{f}'(\mathbf{a})
+  &= \begin{pmatrix}
+    4 & -2 \\
+    2 & 4
+  \end{pmatrix} \\
+  \mathbf{g}'(\mathbf{b})
+  &= \begin{pmatrix}
+    (D_1 g_1) (\mathbf{b}) & (D_2 g_1) (\mathbf{b}) \\
+    (D_1 g_2) (\mathbf{b}) & (D_2 g_2) (\mathbf{b})
+  \end{pmatrix}
+  = \begin{pmatrix}
+    1/5 & 1/10 \\
+    -1/10 & 1/5
+  \end{pmatrix}
+\end{align*}
+Since we can write
+\begin{align*}
+  \mathbf{g}'(\mathbf{b}) \mathbf{f}'(\mathbf{a})
+  = \begin{pmatrix}
+    4 & -2 \\
+    2 & 4
+  \end{pmatrix} \begin{pmatrix}
+    1/5 & 1/10 \\
+    -1/10 & 1/5
+  \end{pmatrix}
+  = \begin{pmatrix}
+    1 & 0 \\
+    0 & 1
+  \end{pmatrix}
+\end{align*}
+and the formula is verified.
+
+\subsection{Solution for (d)}
+For constant value of \(x\), \(\mathbf{f}(x, y)\) gives a parabola which is
+symmetric with respect to \(u\) axis, which stretches towards \(-u\) direction.
+For constant value of \(y\), \(\mathbf{f}(x, y)\) gives a parabola which is
+also symmetric with respect to \(u\) axis, which stretches towards \(+u\)
+direction. Thus, the images of lines parallel to axes are parabola.
+
+\section{Chapter 9 \#19}
+Let \(\mathbf{f}: \mathbb{R}^4 \to \mathbb{R}^3\) as follows:
+\begin{align*}
+  \mathbf{f}(x, y, u, z)
+  &= (f_1(x, y, u, z), f_2(x, y, u, z), f_3(x, y, u, z)) \\
+  f_1(x, y, u, z)
+  &= 3x + y - z + u^2 \\
+  f_2(x, y, u, z)
+  &= x - y + 2z + u \\
+  f_3(x, y, u, z)
+  &= 2x + 2y - 3z + 2u
+\end{align*}
+Since \(\mathbf{f}(0, 0, 0, 0) = (0, 0, 0)\) and,
+\begin{align*}
+  \det \begin{pmatrix}
+    3 & 1 & 0 \\
+    1 & -1 & 1 \\
+    2 & 2 & 2
+  \end{pmatrix}
+  \not = 0
+\end{align*}
+so by implicit function theorem, there exists some open sets \(U \subset
+\mathbb{R}^4\) and \(W \subset \mathbb{R}\) with \((0, 0, 0, 0) \in U\) and \(0
+\in W\), such that for every \(z \in W\) there exists \(\mathbf{F}(z)\) such
+that \(\mathbf{F}(0) = (0, 0, 0)\) and \(\mathbf{f}(\mathbf{F}(z), z) = 0\).
+Then, we can take \(x = F_1(z), y = F_2(z), u = F_3(z)\) where \(\mathbf{F}(z)
+= (F_1(z), F_2(z), F_3(z))\) and get the desired solution. By similar logic, we
+can define \(\mathbf{g}\) and \(\mathbf{h}\) with same domain and codomain with
+\(\mathbf{f}\) as follows:
+\begin{align*}
+  \mathbf{g}(x, z, u, y)
+  &= (g_1(x, z, u, y), g_2(x, z, u, y), g_3(x, z, u, y)) \\
+  g_1(x, z, u, y)
+  &= f_1(x, y, u, z), \quad
+  g_2(x, z, u, y)
+  = f_2(x, y, u, z), \quad
+  g_3(x, z, u, y)
+  = f_3(x, y, u, z) \\
+  \mathbf{h}(y, z, u, x)
+  &= (h_1(y, z, u, x), h_2(y, z, u, x), h_3(y, z, u, x)) \\
+  h_1(y, z, u, x)
+  &= f_1(x, y, u, z), \quad
+  h_2(y, z, u, x)
+  = f_2(x, y, u, z), \quad
+  h_3(y, z, u, x)
+  = f_3(x, y, u, z)
+\end{align*}
+Since \(\mathbf{g}(0, 0, 0, 0) = \mathbf{h}(0, 0, 0, 0) = (0, 0, 0)\) and,
+\begin{align*}
+  \det \begin{pmatrix}
+    3 & -1 & 0 \\
+    1 & 2 & 1 \\
+    2 & -3 & 2
+  \end{pmatrix}
+  \not = 0, \quad
+  \det \begin{pmatrix}
+    1 & -1 & 0 \\
+    -1 & 2 & 1 \\
+    2 & -3 & 2
+  \end{pmatrix}
+  \not = 0
+\end{align*}
+so similarly, there exists \(W' \subset \mathbb{R}\) and \(W'' \subset
+\mathbb{R}\) such that \(0 \in W' \cap W''\), and for every \(z \in W'\) there
+exists \(\mathbf{G}(z)\) such that \(\mathbf{G}(0) = (0, 0, 0)\) and
+\(\mathbf{g}(\mathbf{G}(z), z) = 0\). Likewise, for every \(z \in W''\) there
+exists \(\mathbf{H}(z)\) such that \(\mathbf{H}(0) = (0, 0, 0)\) and
+\(\mathbf{h}(\mathbf{H}(z), z) = 0\). Then \(\mathbf{G}\) and \(\mathbf{H}\)
+are the solutions we are looking for.
+
+On the other hand, we can write
+\begin{align*}
+  \begin{pmatrix}
+    3 & 1 & -1 \\
+    1 & -1 & 2 \\
+    2 & 2 & -3
+  \end{pmatrix}
+  \begin{pmatrix}
+    x \\
+    y \\
+    z
+  \end{pmatrix}
+  = \begin{pmatrix}
+    -u^2 \\
+    -u \\
+    -2u
+  \end{pmatrix}
+\end{align*}
+Since the determinant of the 3-by-3 matrix on the left hand side is zero,
+\(x, y, z\) cannot be solved in terms of \(u\).
+
+\section{Chapter 9 \#20}
+Take \((a, b)\) such that \(f(a, b) = 0\) and \((D_1 f) (a, b)\) is invertible,
+there exists \(U \subset \mathbb{R}^2\) and \(W \subset \mathbb{R}\) such that
+for all \(y \in W\) there exists a unique \(x\) such that \((x, y) \in U\) and
+\(f(x, y) = 0\). Such \(x\) can be defined to be \(g(y)\) and \(g: W \to
+\mathbb{R}\) is continuously differentiable. Then, \(g(b) = a\) and \(f(g(b),
+b) = 0\) holds.
+
+Graphically, we can argue that if \(f(a, b) = 0\) and \((D_1 f) (a, b)\) is
+invertible, that is, nonzero, then the curve from \(f\) does not have a
+vertical tanget at \((a, b)\) and there exists a function \(y = g(x)\) whose
+graph near \(x = a\) is same as the graph of \(f\).
+
+\section{Chapter 9 \#23}
+We know that \(f(0, 1, -1) = 0\) by simple calculation, and
+\begin{align*}
+  (D_1 f) (x, y_1, y_2) = 2xy_1 + e^x
+\end{align*}
+so \((D_1 f) (0, 1, -1) = 1 \not = 0\). Then, by the implicit function theorem,
+there exists open sets \(U \subset \mathbb{R}^3\) and \(W \subset \mathbb{R}^2\)
+with \((0, 1, -1) \in U, (1, -1) \in W\), such that for every \((y_1, y_2) \in
+W\) there exists a unique \(x\) such that \((x, y_1, y_2) \in U\) and \(f(x,
+y_1, y_2) = 0\). Let \(g(y_1, y_2)\) be such \(x\). Then \(g\) is a
+continuously differentiable mapping of \(W\) to \(\mathbb{R}\), and \(g(1, -1)
+= 0\). Then, by definition, \(f(g(y_1, y_2), y_1, y_2) = 0\) holds for \((y_1,
+y_2) \in W\) and we get the desired result.
+
+\end{document}
+% vim: textwidth=79
