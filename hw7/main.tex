@@ -1,0 +1,353 @@
+\documentclass{scrartcl}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{blindtext}
+\usepackage{datetime}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{kotex}
+\usepackage{mathrsfs}
+\usepackage{mathtools}
+\usepackage{pgf,tikz,pgfplots}
+
+\pgfplotsset{compat=1.15}
+\usetikzlibrary{arrows}
+
+\newcommand\Overline[2][0.8pt]{%
+  \begin{tikzpicture}[baseline=(a.base)]
+    \node[inner xsep=0pt,inner ysep=1.5pt] (a) {$#2$};
+    \draw[line width= #1] (a.north west) -- (a.north east);
+  \end{tikzpicture}
+}
+\newtheorem{theorem}{Theorem}
+
+\setmainhangulfont{Noto Serif CJK KR}[
+  UprightFont=* Light, BoldFont=* Bold,
+  Script=Hangul, Language=Korean, AutoFakeSlant,
+]
+\setsanshangulfont{Noto Sans CJK KR}[
+  UprightFont=* DemiLight, BoldFont=* Medium,
+  Script=Hangul, Language=Korean
+]
+\setmathhangulfont{Noto Sans CJK KR}[
+  SizeFeatures={
+    {Size=-6,  Font=* Medium},
+    {Size=6-9, Font=*},
+    {Size=9-,  Font=* DemiLight},
+  },
+  Script=Hangul, Language=Korean
+]
+\title{MATH312: Homework 7 (due Nov. 22)}
+\author{손량(20220323)}
+\date{Last compiled on: \today, \currenttime}
+
+\newcommand{\un}[1]{\ensuremath{\ \mathrm{#1}}}
+\newcommand{\imag}{\operatorname{Im}}
+\newcommand{\real}{\operatorname{Re}}
+\newcommand{\Log}{\operatorname{Log}}
+\newcommand{\Arg}{\operatorname{Arg}}
+\DeclareMathOperator*{\Res}{Res}
+
+\begin{document}
+\maketitle
+
+\section{Chapter 9 \#22}
+\subsection{Solution for (a)}
+We can write
+\begin{align*}
+  \nabla f(x, y)
+  = (6x^2 + 6y^2 - 6x, 12xy + 6y)
+\end{align*}
+Solving \(\nabla f(x, y) = (0, 0)\), we can find solutions \((0, 0), (1, 0)\).
+From the two-variable version of Hessian~matrix we discussed in class, we can
+write
+\begin{align*}
+  [(D_{12} f) (0, 0)]^2 - [(D_{11} f) (0, 0)] [(D_{22} f) (0, 0)]
+  &= 6
+  > 0 \\
+  [(D_{12} f) (1, 0)]^2 - [(D_{11} f) (1, 0)] [(D_{22} f) (1, 0)]
+  &= -72 < 0, \quad
+  (D_{11} f) (1, 0)
+  = 12 > 0
+\end{align*}
+and conclude that \(f\) has a local minimum at \((1, 0)\) and a saddle point at
+\((0, 0)\).
+
+\subsection{Solution for (b)}
+By the implicit function theorem, \((D_1 f) (x, y)\) needs to be invertible in
+order to write \(f(x, y) = 0\) as \(f(g(y), y) = 0\), when \(g\) is defined on
+some open subset. Thus, for points that \(f(x, y) = 0\) cannot be solved for
+\(x\) in terms of \(y\) in all neighborhood, \((D_1 f) (x, y) = 0\) should
+hold. By calculation, the points satisfying \(f(x, y) = 0\) and \((D_1 f) (x,
+y) = 0\) are \((0, 0)\) and \((\sqrt{3} / 2, \pm \sqrt{2 \sqrt{3} - 3} / 2)\).
+By similar argument, for points that \(f(x, y) = 0\) cannot be solved for \(y\)
+in terms of \(x\) in all neighborhood, \((D_2 f) (x, y) = 0\) should hold. By
+calculation, the points satisfying \(f(x, y) = 0\) and \((D_2 f) (x, y) = 0\)
+are \((0, 0)\) and \((3 / 2, 0)\). \(S\) draws an \(\alpha\)-shaped curve which
+is reflected with respect to \(y\) axis, having an asymptote \(x = -1/2\).
+
+\section{Chapter 9 \#27}
+\subsection{Solution for (a)}
+For \((x, y) \not = (0, 0)\), since \(f\) is a polynomial divided by nonzero
+polynomial, the function is continuous and differentiable. By applying the
+usual rules of differentiation, we can conclude that the partial derivatives
+are also differentiable there. Fix \(\epsilon > 0\). by taking \(\delta =
+\sqrt{\epsilon}\), \(0 < |(x, y)| < \delta\) implies
+\begin{align*}
+  |f(x, y) - 0|
+  = \left| \frac{xy (x^2 - y^2)}{x^2 + y^2} \right|
+  \le \frac{|xy| (x^2 + y^2)}{x^2 + y^2}
+  = |xy|
+  < \delta^2
+  < \epsilon
+\end{align*}
+and we can conclude that \(\lim_{(x, y) \to (0, 0)} f(x, y) = 0\) and \(f(x,
+y)\) is continuous at \((0, 0)\). We can write
+\begin{align*}
+  \lim_{h \to 0} \frac{f(h, 0) - f(0, 0)}{h}
+  = \lim_{h \to 0} \frac{f(h, 0)}{h}
+  = 0, \quad
+  \lim_{h \to 0} \frac{f(0, h) - f(0, 0)}{h}
+  = \lim_{h \to 0} \frac{f(0, h)}{h}
+  = 0
+\end{align*}
+so \((D_1 f) (0, 0) = (D_2 f) (0, 0) = 0\) holds. For \((x, y) \not = (0, 0)\),
+by usual rules of differentiation, we obtain
+\begin{align*}
+  (D_1 f) (x, y)
+  = \frac{y(x^4 + 4x^2 y^2 - y^4)}{(x^2 + y^2)^2}, \quad
+  (D_2 f) (x, y)
+  = \frac{x(x^4 - 4x^2 y^2 - y^4)}{(x^2 + y^2)^2}
+\end{align*}
+By taking \(\delta = \epsilon / 3\), \(0 < |(x, y)| < \delta\) implies
+\begin{align*}
+  |(D_1 f) (x, y) - 0|
+  &= \left| \frac{y(x^4 + 4x^2 y^2 - y^4)}{(x^2 + y^2)^2} \right|
+  \le \frac{|y| (|x^4| + |4x^2 y^2| +|y^4|)}{(x^2 + y^2)^2} \\
+  &\le |y| \left[ 1 + \frac{2x^2 y^2}{(x^2 + y^2)^2} \right]
+  \le |y| \left[ 1 + \frac{2(x^2 + y^2)^2}{(x^2 + y^2)^2} \right]
+  = 3|y|
+  < 3\delta
+  = \epsilon \\
+  |(D_2 f) (x, y) - 0|
+  &= \left| \frac{x(x^4 - 4x^2 y^2 - y^4)}{(x^2 + y^2)^2} \right|
+  \le \frac{|x| (|x^4| + |4x^2 y^2| +|y^4|)}{(x^2 + y^2)^2} \\
+  &\le |x| \left[ 1 + \frac{2x^2 y^2}{(x^2 + y^2)^2} \right]
+  \le |x| \left[ 1 + \frac{2(x^2 + y^2)^2}{(x^2 + y^2)^2} \right]
+  = 3|x|
+  < 3\delta
+  = \epsilon
+\end{align*}
+so \(\lim_{(x, y) \to (0, 0)} (D_1 f) (x, y) = \lim_{(x, y) \to (0, 0)} (D_2 f)
+(x, y) = 0\), and the partial derivatives are continuous at \((0, 0)\). Thus,
+\(f, D_1 f, D_2 f\) are all continuous in \(\mathbb{R}^2\).
+
+\subsection{Solution for (b), (c)}
+For \((x, y) \not = (0, 0)\), \((D_1 f) (x, y)\) and \((D_2 f) (x, y)\) are
+polynomial divided by nonzero polynomial, so they are differentiable with
+respect to \(x\) and \(y\). Thus, \(D_{12} f\) and \(D_{21} f\) exist at every
+point in \(\mathbb{R}^2\). Moreover, using the usual differentiation rules, we
+can write
+\begin{align*}
+  (D_{12} f) (x, y)
+  = \frac{x^6 + 9x^4 y^2 - 9x^2 y^4 - y^6}{(x^2 + y^2)^3}, \quad
+  (D_{21} f) (x, y)
+  = \frac{x^6 + 9x^4 y^2 - 9x^2 y^4 - y^6}{(x^2 + y^2)^3}
+\end{align*}
+so they are again polynomial divided by nonzero polynomial, hence continuous at
+points except \((0, 0)\). We can write
+\begin{align*}
+  (D_{12} f) (0, 0)
+  &= [D_1 (D_2 f)] (0, 0)
+  = \lim_{h \to 0} \frac{(D_2 f) (h, 0) - (D_2 f) (0, 0)}{h} \\
+  &= \lim_{h \to 0} \frac{(D_2 f) (h, 0)}{h}
+  = \lim_{h \to 0} \frac{h}{h}
+  = 1 \\
+  (D_{21} f) (0, 0)
+  &= [D_2 (D_1 f)] (0, 0)
+  = \lim_{h \to 0} \frac{(D_1 f) (0, h) - (D_1 f) (0, 0)}{h} \\
+  &= \lim_{h \to 0} \frac{(D_1 f) (0, h)}{h}
+  = \lim_{h \to 0} \frac{-h}{h}
+  -1
+\end{align*}
+Thus, \(D_{12} f\) and \(D_{21} f\) exist at every point in \(\mathbb{R}^2\),
+and \((D_{12} f) (0, 0) = 1, (D_{21} f) (0, 0) = -1\).
+
+\section{Chapter 9 \#28}
+First, \(x, -x, -x + 2\sqrt{t}, x - 2\sqrt{|t|}, 0\) are all continuous on
+\(\mathbb{R}^2\) since they are additions and compositions of continuous
+functions. Consider \(A = \{(x, t)\; |\; t \ge 0, 0 \le x \le \sqrt{t}, (x, t)
+\in \mathbb{R}^2\}, B = \{(x, t)\; |\; t \ge 0, \sqrt{t} \le x \le 2\sqrt{t},
+(x, t) \in \mathbb{R}^2\}, C = \{(x, t)\; |\; t < 0, 0 \le x \le \sqrt{|t|}, (x,
+t) \in \mathbb{R}^2\}, D = \{(x, t)\; |\; t < 0, \sqrt{|t|} \le x \le
+2\sqrt{|t|}\}, E = (A \cup B \cup C \cup D \cup E)^C\). As \(\varphi(x, t)\) is
+continuous in \(A, B, C, D, E\) and the values of \(\varphi\) at limit points
+of \(A, B, C, D, E\) coincide, \(\varphi\) is continuous in \(\mathbb{R}^2\).
+For all \(x < 0\), \(\varphi(x, t) = 0\) holds, so \((D_2 \varphi) (x, 0) =
+0\). For \(x = 0\), \(\varphi\) is also zero, so \((D_2 \varphi) (x, 0) = 0\)
+also holds. For \(x > 0\), \(\varphi\) is zero for closed interval \([-x^2 / 4,
+x^2 / 4]\), so for \(0 < |h| < t^2 / 4\),
+\begin{align*}
+  \left| \frac{\varphi(x, h) - \varphi(x, 0)}{h} - 0 \right|
+  = 0
+\end{align*}
+and we know that \((D_2 \varphi) (x, 0) = 0\). If \(0 \le t < 1/4\), then we
+can write
+\begin{align*}
+  f(t)
+  &= \int^1_{-1} \varphi(x, t) dx
+  = \int^{2\sqrt{t}}_0 \varphi(x, t) dx
+  = \int^{\sqrt{t}}_0 \varphi(x, t) dx
+    + \int^{2\sqrt{t}}_{\sqrt{t}} \varphi(x, t) dx \\
+  &= \int^{\sqrt{t}}_0 x\; dx + \int^{2\sqrt{t}}_{\sqrt{t}} (-x + 2\sqrt{t}) dx
+  = \frac{t}{2} - \frac{3t}{2} + 2t
+  = t
+\end{align*}
+If \(-1/4 < t < 0\), then
+\begin{align*}
+  f(t)
+  &= \int^1_{-1} \varphi(x, t) dx
+  = \int^{2\sqrt{|t|}}_0 \varphi(x, t) dx
+  = \int^{\sqrt{|t|}}_0 \varphi(x, t) dx
+    + \int^{2\sqrt{|t|}}_{\sqrt{|t|}} \varphi(x, t) dx \\
+  &= \int^{\sqrt{|t|}}_0 -\varphi(x, |t|) dx
+    + \int^{2\sqrt{|t|}}_{\sqrt{|t|}} -\varphi(x, |t|) dx
+  = \int^{\sqrt{|t|}}_0 -x\; dx
+    + \int^{2\sqrt{|t|}}_{\sqrt{|t|}} (x - 2\sqrt{t}) dx \\
+  &= -\frac{t}{2} + \frac{3t}{2} - 2t
+  = -t
+\end{align*}
+so \(f(t) = t\) for \(|t| < 1/4\). From this, we can write \(f'(0) = 1\), and
+conclude
+\begin{align*}
+  f'(0)
+  \not = \int^1_{-1} (D_2 \varphi) (x, 0) dx
+  = 0
+\end{align*}
+
+\section{Chapter 9 \#29}
+Consider \(f \in C^k(E)\) such that \(k \ge 2\). Fix \(\mathbf{p} = (p_1, p_2,
+\dots, p_n) \in E\). Take a neighborhood \(U \subset E\) of \(\mathbf{p}\), and
+we can define \(g_{\mathbf{p}, ij}: V \to \mathbb{R}\) such that
+\(g_{\mathbf{p}, ij}(x, y) = f(\mathbf{p} + x \mathbf{e}_i + y \mathbf{e}_j)\)
+where \(1 \le i < j \le n\) and \(V = \{(x_i, x_j)\; |\; (x_1, \dots, x_n) \in
+U\}\). Then, we can write
+\begin{align*}
+  (D_{ij} f) (\mathbf{p})
+  = (D_{12} g_{\mathbf{p}, ij}) (0, 0)
+  = (D_{21} g_{\mathbf{p}, ij}) (0, 0)
+  = (D_{ji} f) (\mathbf{p})
+\end{align*}
+Since the choice of \(\mathbf{p}\) was arbitrary and \(C^a(E) \subset C^b(E)\)
+if \(a \ge b\), for a \(k\)-th order derivative of \(f\), which can be written
+as \(D_{i_1 i_2 \dots i_k} f\), we can exchange adjacent indicies \(i_{l - 1}\)
+and \(i_l\), where \(2 \le l \le n\), using the property we have proven
+earlier. Then, all of the permutations of \(i_1, i_2, \dots, i_k\) can be made
+by repeatedly exchanging the indicies in finite steps and we know that the
+derivative is constant for all permutations.
+
+\section{Chapter 9 \#30}
+\subsection{Solution for (a)}
+Consider \(\varphi \in C^1(E)\). We can write
+\begin{align*}
+  \frac{d}{dt} \varphi(\mathbf{p}(t))
+  = \nabla \varphi(\mathbf{p}(t)) \cdot \mathbf{x}
+  = (D_1 \varphi) (\mathbf{p}(t)) x_1 + \dots
+    + (D_n \varphi) (\mathbf{p}(t)) x_n
+\end{align*}
+From this, we can observe that derivative of \(\varphi(\mathbf{p}(t))\) is a
+linear combinations of functions mapping \(E\) to \(\mathbb{R}\) composed with
+\(\mathbf{p}(t)\). If we are to obtain \(k\)-th derivative of \(h(t) =
+f(\mathbf{t})\), then we can use the formula repeatedly since \(f \in C^m(E)\),
+for \(1 \le k \le m\). Then, \(h^{(k)} (t)\) can be written as
+\begin{align*}
+  h^{(k)} (t)
+  = \sum (D_{i_1 \dots i_k} f) (\mathbf{p}(t)) x_{i_1} \dots x_{i_k}
+\end{align*}
+and the sum is over all ordered \(k\)-tuples \((i_1, \dots, i_k)\).
+
+\subsection{Solution for (b)}
+Using the result we have obtained in (a),
+\begin{align*}
+  h^{(k)} (0)
+  = \sum (D_{i_1 \dots i_k} f) (\mathbf{p}(0)) x_{i_1} \dots x_{i_k}
+  = \sum (D_{i_1 \dots i_k} f) (\mathbf{a}) x_{i_1} \dots x_{i_k}
+\end{align*}
+then we can write
+\begin{align*}
+  f(\mathbf{a} + \mathbf{x})
+  &= h(1)
+  = \sum^{m - 1}_{k = 0} \frac{h^{(k)}(0)}{k!} + \frac{h^{(m)}(t)}{m!} \\
+  &= \sum^{m - 1}_{k = 1}
+    \left[ \frac{1}{k!}
+      \sum (D_{i_1 \dots i_k} f) (\mathbf{a}) x_{i_1} \dots x_{i_k} \right]
+    + \frac{1}{m!}
+      \sum (D_{i_1 \dots i_m} f)
+        (\mathbf{a} + t\mathbf{x}) x_{i_1} \dots x_{i_m}
+\end{align*}
+so the remainder term can be written as
+\begin{align*}
+  r(\mathbf{x})
+  = \frac{1}{m!}
+    \sum (D_{i_1 \dots i_m} f) (\mathbf{a} + t\mathbf{x}) x_{i_1} \dots x_{i_m}
+\end{align*}
+Then,
+\begin{align*}
+  \left| \frac{r(\mathbf{x})}{|\mathbf{x}|^{m - 1}} - 0 \right|
+  &= \left| \frac{1}{|\mathbf{x}|^{m - 1} m!}
+    \sum (D_{i_1 \dots i_m} f) (\mathbf{a} + t\mathbf{x}) x_{i_1} \dots x_{i_m}
+  \right| \\
+  &\le \frac{1}{|\mathbf{x}|^{m - 1} m!}
+    \sum | (D_{i_1 \dots i_m} f) (\mathbf{a} + t\mathbf{x})
+      x_{i_1} \dots x_{i_m} | \\
+  &\le \frac{1}{|\mathbf{x}|^{m - 1} m!}
+    \sum | (D_{i_1 \dots i_m} f) (\mathbf{a} + t\mathbf{x}) | |\mathbf{x}|^m \\
+  &\le \frac{|\mathbf{x}|}{m!}
+    \sum | (D_{i_1 \dots i_m} f) (\mathbf{a} + t\mathbf{x}) |
+\end{align*}
+Since \(f \in C^m(E)\), every \(k\)-th order partial derivatives are
+continuous, hence bounded. By sandwich theorem, we can conclude that
+\(r(\mathbf{x}) / |\mathbf{x}|^{m - 1}\) converges to zero as \(\mathbf{x} \to
+0\).
+
+\subsection{Solution for (c)}
+As we have discussed in \#29, the partial derivative is unchanged when we
+calculate the partial derivative in different order, as the function is in
+\(C^m(E)\). Generally, a \((s_1 + \dots + s_n)\)-th order partial derivative
+with indicies \(i\) occuring \(s_i\) times occur \((s_1 + \dots + s_n)! / (s_1!
+\dots s_n!) \cdot {n \choose s_1 + \dots + s_n}\) times in the Taylor
+polynomial. Then the Taylor polynomial can be written as
+\begin{align*}
+  &\sum^{m - 1}_{k = 0}
+    \left[ \frac{1}{k!}
+      \sum (D_{i_1 \dots i_k} f) (\mathbf{a}) x_{i_1} \dots x_{i_k} \right] \\
+  &= \sum^{m - 1}_{k = 0}
+    \left[ \frac{1}{k!} \sum_{(s_1, \dots, s_n) \in S_k}
+      \frac{(s_1 + \dots + s_n)!}{s_1! \dots s_n!}
+      \cdot {n \choose s_1 + \dots + s_n}
+      (D^{s_1}_1 \dots D^{s_n}_n f) (\mathbf{a}) x^{s_1}_1 \dots x^{s_n}_n
+    \right] \\
+  &= \sum^{m - 1}_{k = 0}
+    \left[ \frac{1}{k!} \sum_{(s_1, \dots, s_n) \in S_k}
+      \frac{n!}{s_1! \dots s_n! (n - s_1 - \dots - s_n)!}
+      (D^{s_1}_1 \dots D^{s_n}_n f) (\mathbf{a}) x^{s_1}_1 \dots x^{s_n}_n
+    \right] \\
+  &= \sum^{m - 1}_{k = 0}
+    \left[ \sum_{(s_1, \dots, s_n) \in S_k}
+      \frac{(D^{s_1}_1 \dots D^{s_n}_n f) (\mathbf{a})}{s_1! \dots s_n!}
+      x^{s_1}_1 \dots x^{s_n}_n
+    \right]
+\end{align*}
+where \(S_k = \{(s_1, \dots, s_n)\; |\; s_1 + \dots + s_n \le k, s_1, \dots,
+s_n \in (\mathbb{N} \cup \{0\})^n\}\). Then, we can just sum over ordered
+\(n\)-tuples of nonnegative integers \((s_1, \dots, s_n)\) such that \(s_1 +
+\dots + s_n \le m - 1\) and write
+\begin{align*}
+  \sum \frac{(D^{s_1}_1 \dots D^{s_n}_n f) (\mathbf{a})}{s_1! \dots s_n!}
+    x^{s_1}_1 \dots x^{s_n}_n
+\end{align*}
+
+\end{document}
+% vim: textwidth=79
