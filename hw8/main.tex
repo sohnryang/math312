@@ -1,0 +1,185 @@
+\documentclass{scrartcl}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{blindtext}
+\usepackage{datetime}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{kotex}
+\usepackage{mathrsfs}
+\usepackage{mathtools}
+\usepackage{pgf,tikz,pgfplots}
+
+\pgfplotsset{compat=1.15}
+\usetikzlibrary{arrows}
+
+\newcommand\Overline[2][0.8pt]{%
+  \begin{tikzpicture}[baseline=(a.base)]
+    \node[inner xsep=0pt,inner ysep=1.5pt] (a) {$#2$};
+    \draw[line width= #1] (a.north west) -- (a.north east);
+  \end{tikzpicture}
+}
+\newtheorem{theorem}{Theorem}
+
+\setmainhangulfont{Noto Serif CJK KR}[
+  UprightFont=* Light, BoldFont=* Bold,
+  Script=Hangul, Language=Korean, AutoFakeSlant,
+]
+\setsanshangulfont{Noto Sans CJK KR}[
+  UprightFont=* DemiLight, BoldFont=* Medium,
+  Script=Hangul, Language=Korean
+]
+\setmathhangulfont{Noto Sans CJK KR}[
+  SizeFeatures={
+    {Size=-6,  Font=* Medium},
+    {Size=6-9, Font=*},
+    {Size=9-,  Font=* DemiLight},
+  },
+  Script=Hangul, Language=Korean
+]
+\title{MATH312: Homework 8 (due Nov. 29)}
+\author{손량(20220323)}
+\date{Last compiled on: \today, \currenttime}
+
+\newcommand{\un}[1]{\ensuremath{\ \mathrm{#1}}}
+\newcommand{\imag}{\operatorname{Im}}
+\newcommand{\real}{\operatorname{Re}}
+\newcommand{\Log}{\operatorname{Log}}
+\newcommand{\Arg}{\operatorname{Arg}}
+\DeclareMathOperator*{\Res}{Res}
+
+\begin{document}
+\maketitle
+
+\section{Problem \#1}
+Suppose that \(\mathcal{A}\) is a \(\sigma\)-algebra. Then, by definition,
+\(\mathcal{A}\) is closed under countable union, and \(\bigcup^\infty_{i = 1}
+A_i \in \mathcal{A}\). Now, suppose that \(\mathcal{A}\) is closed under
+countable increasing union. That is, for all \(A_1, A_2, \dots \in
+\mathcal{A}\) such that \(A_1 \subset A_2 \subset \dots\), \(\bigcup^\infty_{i
+= 1} A_i \in \mathcal{A}\) holds. For all \(B_1, B_2, \dots \in \mathcal{A}\),
+let \(C_k = \bigcup^k_{i = 1} B_i\). Then, \(C_1 \subset C_2 \subset \dots\)
+holds. As \(\mathcal{A}\) is closed under countable increasing unions,
+\(\bigcup^\infty_{i = 1} C_i \in \mathcal{A}\). Since \(\bigcup^\infty_{i = 1}
+C_i = \bigcup^\infty_{i = 1} A_i\), \(\mathcal{A}\) is a \(\sigma\)-algebra.
+
+\section{Problem \#2}
+As \(A \setminus B\) is disjoint with \(B\) and \(A \cap B\), we can write
+\begin{align*}
+  \mu(A \cup B)
+  = \mu(A \setminus B) + \mu(B), \quad
+  \mu(A)
+  = \mu(A \setminus B) + \mu(A \cap B)
+\end{align*}
+From this, we obtain the desired result.
+\begin{align*}
+  \mu(A \cup B) + \mu(A \cap B)
+  = \mu(A) + \mu(B)
+\end{align*}
+
+\section{Problem \#3}
+It is known that every open sets in \(\mathbb{R}\) can be written as a
+countable union of open intervals. Consider an open set \(U \subset
+\mathbb{R}\). \(U\) can be written as \(U = \bigcup^\infty_{i = 1} (a_i,
+b_i)\) where \(a_i < b_i\) for all \(i\), and since \(\mathcal{S}\) is a
+\(\sigma\)-algebra and \((a_i, b_i) \in \mathcal{S}\) for all \(i\), \(U \in
+\mathcal{S}\) also holds. Since the choice of \(U\) was arbitrary,
+\(\mathcal{S}\) contains all open subsets of \(\mathbb{R}\). For all
+\(\sigma\)-algebra \(\mathcal{A}\) containing all open sets, \(\mathcal{A}\)
+contains all open intervals as open intervals are open in \(\mathbb{R}\). Then,
+as \(\mathcal{S}\) is the smallest \(\sigma\)-algebra containing all open
+intervals, \(\mathcal{S} \subset \mathcal{A}\). Thus, \(\mathcal{S}\) is the
+smallest \(\sigma\)-algebra containing all open subsets of \(\mathbb{R}\). In
+other words, \(\mathcal{S}\) is \(\mathcal{B}(\mathbb{R})\).
+
+\section{Problem \#4}
+Suppose that \(m^*((a, b) \cup (c, d)) = m^*((a, b)) + m^*((c, d))\) and \((a,
+b) \cap (c, d) \not = \varnothing\). As \((a, b) \cup (c, d) = (\min \{a, c\},
+\max \{b, d\})\) if \((a, b)\) and \(c, d\) are not disjoint, we can write
+\begin{align*}
+  \max \{b, d\} - \min \{a, c\}
+  = (b - a) + (d - c)
+\end{align*}
+If \((a, b) \subset (c, d)\), \((a, b) \cup (c, d) = (c, d)\) so \(m^*((a, b)
+\cup (c, d)) = d - c\), and the equality above does not hold, and by similar
+argument, for \((c, d) \subset (a, b)\) the equality also does not hold.
+Otherwise, if \(a < c < b < d\) then \((a, b) \cup (c, d) = (a, d)\) so
+\(m^((a, b) \cup (c, d)) = d - a < (d - a) + (b - c)\), and the equality does
+not hold. By similar argument the equality does not hold for \(c < a < d < b\)
+case. Thus, \((a, b) \cap (c, d) \not = \varnothing\) is a contradiction, and
+\((a, b) \cap (c, d) = \varnothing\) should hold.
+
+Now, suppose that \((a, b) \cap (c, d) = \varnothing\). By a property of outer
+measure, \(m^*((a, b) \cup (c, d)) \le m^*((a, b)) + m^*((c, d))\) holds.
+Consider a collection of open intervals, \(\{I_n\}\) such that
+\(\bigcup^\infty_{j = 1} I_j \supset (a, b) \cup (c, d)\). Let \(J_n := I_n
+\cap (-\infty, a), K_n := I_n \cap (a, b), L_n := I_n \cap (b, \infty)\). Then
+we can write
+\begin{align*}
+  \sum^\infty_{i = 1} l(I_i)
+  \ge \sum^\infty_{i = 1} (l(J_i) + l(L_i)) + \sum^\infty_{i = 1} l(K_i)
+  \ge m^*((a, b)) + m^*((c, d))
+\end{align*}
+Taking infinimum of both sides, we obtain \(m^*((a, b) \cup (c, d)) \ge m^*((a,
+b)) + m^*((c, d))\). In conclusion, \(m^*((a, b) \cup (c, d)) = m^*((a, b)) +
+m^*((c, d))\).
+
+\section{Problem \#5}
+If \(c = 0\), then \(cA \subset \{0\}\). Then, as \(cA \subset \{0\} \subset
+(-r, r)\) for all \(r > 0\), \(\inf \{l((-r, r))\; |\; r \in (0, \infty)\} =
+0\) holds, so \(m^*(cA) = 0 = |c| m^*(A)\). Now, suppose that \(c \not = 0\).
+Consider a collection of open intervals, \(\{I_n\}\) such that
+\(\bigcup^\infty_{j = 1} I_j \supset A\). Then, we can write
+\begin{align*}
+  c \left( \bigcup^\infty_{j = 1} I_j \right)
+  = \bigcup^\infty_{j = 1} cI_j
+  \supset cA
+\end{align*}
+and
+\begin{align*}
+  m^*(cA)
+  \le \sum^\infty_{j = 1} l(cI_j)
+  = |c| \sum^\infty_{j = 1} l(I_j)
+\end{align*}
+Taking infinimum of both sides, we obtain \(m^*(cA) \le |c| m^*(A)\). Now, let
+\(B := cA, b := 1 / c\). Then, by the result we have proven earlier, \(m^*(bB)
+\le |b| m^*(B)\), so \(m^*(cA) = m^*(B) \ge |b|^{-1} m^*(bB) = |c| m^*(A)\)
+holds. In conclusion, \(m^*(cA) = |c| m^*(A)\).
+
+\section{Problem \#6}
+Since \(A \supset A \cap (-n, n)\), \(m^*(A) \ge m^*(A \cap (-n, n))\) holds
+for all \(n \ge 1\), so \(m^*(A) \ge \lim_{n \to \infty} m^*(A \cap (-n, n))\).
+Let \(B_n := A \cap ((-n, -n + 1] \cup [n - 1, n))\). Then, we can write
+\begin{align*}
+  m^*(A \cap (-n, n))
+  = m^* \left( \bigcup^n_{i = 1} B_i \right)
+  \le \sum^n_{i = 1} m^*(B_i)
+\end{align*}
+Now, consider a collection of open intervals, \(\{I_n\}\) such that
+\(\cup^\infty_{j = 1} I_j \supset A \cap (-n, n)\). Let \(J_{ij} = I_j \cap
+((-i, -i + 1] \cup [i - 1, i))\), then we can write
+\begin{align*}
+  \sum^\infty_{j = 1} l(I_j)
+  \ge \sum^n_{i = 1} \sum^\infty_{j = 1} l(J_{ij})
+  \ge \sum^n_{i = 1} m^*(B_i)
+\end{align*}
+By taking infinimum of both sides, we obtain
+\begin{align*}
+  m^*(A \cap (-n, n))
+  \ge \sum^n_{i = 1} m^*(B_i)
+\end{align*}
+Thus, \(m^*(A \cap (-n, n)) = \sum^n_{i = 1} m^*(B_i)\). By taking limit of
+both sides,
+\begin{align*}
+  \lim_{n \to \infty} m^*(A \cap (-n, n))
+  = \sum^\infty_{i = 1} m^*(B_i)
+  \ge m^* \left( \bigcup^\infty_{i = 1} B_i \right)
+  = m^*(A)
+\end{align*}
+In conclusion, \(m^*(A) = \lim_{n \to \infty} m^*(A \cap (-n, n))\) and we get
+the desired result.
+
+\end{document}
+% vim: textwidth=79
