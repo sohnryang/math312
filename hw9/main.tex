@@ -1,0 +1,272 @@
+\documentclass{scrartcl}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{blindtext}
+\usepackage{datetime}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{kotex}
+\usepackage{mathrsfs}
+\usepackage{mathtools}
+\usepackage{pgf,tikz,pgfplots}
+
+\pgfplotsset{compat=1.15}
+\usetikzlibrary{arrows}
+
+\newcommand\Overline[2][0.8pt]{%
+  \begin{tikzpicture}[baseline=(a.base)]
+    \node[inner xsep=0pt,inner ysep=1.5pt] (a) {$#2$};
+    \draw[line width= #1] (a.north west) -- (a.north east);
+  \end{tikzpicture}
+}
+\newtheorem{theorem}{Theorem}
+
+\setmainhangulfont{Noto Serif CJK KR}[
+  UprightFont=* Light, BoldFont=* Bold,
+  Script=Hangul, Language=Korean, AutoFakeSlant,
+]
+\setsanshangulfont{Noto Sans CJK KR}[
+  UprightFont=* DemiLight, BoldFont=* Medium,
+  Script=Hangul, Language=Korean
+]
+\setmathhangulfont{Noto Sans CJK KR}[
+  SizeFeatures={
+    {Size=-6,  Font=* Medium},
+    {Size=6-9, Font=*},
+    {Size=9-,  Font=* DemiLight},
+  },
+  Script=Hangul, Language=Korean
+]
+\title{MATH312: Homework 9 (due Dec. 6)}
+\author{손량(20220323)}
+\date{Last compiled on: \today, \currenttime}
+
+\newcommand{\un}[1]{\ensuremath{\ \mathrm{#1}}}
+\newcommand{\imag}{\operatorname{Im}}
+\newcommand{\real}{\operatorname{Re}}
+\newcommand{\Log}{\operatorname{Log}}
+\newcommand{\Arg}{\operatorname{Arg}}
+\DeclareMathOperator*{\Res}{Res}
+
+\begin{document}
+\maketitle
+
+\section{Problem \#1}
+As \(B\) is Lebesgue measurable, \(m^*(E) = m^*(E \cap B) + m^*(E \cap B^C)\)
+holds. \(E \cap B \subset B\) implies \(m^*(E \cap B) \le m^*(B) = 0\) by
+monotonicity, so \(m^*(E) = m^*(E \cap B^C)\). As \(A^C \supset B^C\), \(m^*(E
+\cap A^C) \ge m^*(E \cap B^C)\), so \(m^*(E) = m^*(E \cap B^C) \le m^*(E \cap
+A^C) \le m^*(E)\) and \(m^*(E) = m^*(E \cap A^C)\). Since \(A \subset B\),
+\(m^*(A) \le m^*(B) = 0\) and \(m^*(E \cap A) \le m^*(A) = 0\). In conclusion,
+\begin{align*}
+  m^*(E)
+  = m^*(E \cap A^C)
+  = m^*(E \cap A) + m^*(E \cap A^C)
+\end{align*}
+and \(A\) is measurable. Since \(m^*(A) = 0\), \(m(A) = 0\).
+
+\section{Problem \#2}
+Like Cantor set, \(A\) can be constructed by removing \((4/10, 5/10), (4/100,
+5/100) , (1/10 + 4/100, 1/10 + 5/100), \dots, (3/10 + 4/100, 3/10 + 5/100),
+(5/10 + 4/100, 5/10 + 5/100), \dots,  (9/10 + 4/100, 9/10 + 5/100), \dots\) in
+series. As \(A\) is a set constructed by removing disjoint open intervals from
+\([0, 1]\), \(A\) is a countable intersection of closed sets, and as closed
+sets are Lebesgue measurable, \(A\) is also Lebesgue measurable. We can write
+\begin{align*}
+  m(A)
+  &= m([0, 1]) - m((4/10, 5/10))
+    - \sum^9_{n = 0, n \not = 4} m((n/10 + 4/100, n/10 + 5/100))
+    - \dots \\
+  &= 1 - \frac{1}{10} - \frac{9 \times 1}{100} - \dots
+  = 1 - \sum^\infty_{n = 0} \frac{1}{10} \left( \frac{9}{10} \right)^n
+  = 1 - \frac{1}{10} \times \frac{1}{1 - \frac{9}{10}}
+  = 0
+\end{align*}
+
+\section{Problem \#3}
+\subsection{Solution for (i)}
+Suppose that \(A\) is Lebesgue measurable. Then, \(A^C\) is also Lebesgue
+measurable, so there exists an open set \(O \supset A^C\) such that \(m^*(O
+\setminus A^C) \le \epsilon\). Since \(O \setminus A^C = O \cap (A^C)^C = O
+\cap A = A \setminus O^C\), we can take \(C = O^C\) and \(m^*(A \setminus C)
+\le \epsilon\) holds.
+
+Now, Suppose that there exists a closed set \(C \subset \mathbb{R}\) such that
+\(m^*(A \setminus C) \le \epsilon\), for all \(\epsilon > 0\). As \(A \setminus
+C = A \cap C^C = C^C \cap A = C^C \setminus A\), \(m^*(C^C \setminus A^C) \le
+\epsilon\), and \(C^C\) is open, thus \(A^C\) is Lebesgue measurable. Thus,
+\(A\) is also Lebesgue measurable.
+
+\subsection{Solution for (ii)}
+Suppose that \(A\) is Lebesgue measurable. Fix \(\epsilon > 0\). There exists
+open set \(O \supset A\) and closed set \(C \subset A\) such that \(m^*(O
+\setminus A) \le \epsilon / 2, m^*(A \setminus C) \le \epsilon / 2\). Then, we
+can write
+\begin{align*}
+  m^*(O \setminus C)
+  \le m^*(O \setminus A) + m^*(A \setminus C)
+  \le \epsilon
+\end{align*}
+and we get the desired result.
+
+Now, suppose that there exists open set \(O_\epsilon \supset A\) and closed set
+\(C_\epsilon \subset A\) such that \(m^*(O_\epsilon \setminus C_\epsilon) \le
+\epsilon\) for all \(\epsilon > 0\). For all \(E \subset \mathbb{R}\), as \(E
+\setminus C_\epsilon \subset (E \setminus O_\epsilon) \cup (O_\epsilon
+\setminus C_\epsilon)\), we can write
+\begin{align*}
+  m^*(E \setminus C_\epsilon)
+  \le m^*((E \setminus O_\epsilon) \cup (O_\epsilon \setminus C_\epsilon))
+  \le m^*(E \setminus O_\epsilon) + m^*(O_\epsilon \setminus C_\epsilon)
+\end{align*}
+Then,
+\begin{align*}
+  m^*(E)
+  &\le m^*(E \cap A) + m^*(E \cap A^C)
+  \le m^*(E \cap O_\epsilon) + m^*(E \cap C^C_\epsilon) \\
+  &\le m^*(E \cap O_\epsilon) + m^*(E \cap O^C_\epsilon)
+    + m^*(O \setminus C_\epsilon)
+  \le m^*(E \cap O_\epsilon) + m^*(E \cap O^C_\epsilon) + \epsilon \\
+  &\le m^*(E) + \epsilon
+\end{align*}
+Since our choice of \(\epsilon\) was arbitrary, \(m^*(E) = m^*(E \cap A) +
+m^*(E \cap A^C)\) and \(A\) is Lebesgue measurable.
+
+\section{Problem \#4}
+Suppose that \(A\) is Lebesgue measurable. Fix \(\epsilon > 0\). For \(n \ge
+0\), there exists open set \(O_n \supset A\) such that \(m^*(O_n \setminus A)
+\le \epsilon / 2^n\), and closed set \(C_n \subset A\) such that \(m^*(A
+\setminus C_n) \le \epsilon / 2^n\), then we can write
+\begin{align*}
+  m^*(A \setminus C_n) + m^*(C_n)
+  = m^*(A)
+  = m^*(O_n) - m^*(O_n \setminus A)
+\end{align*}
+so
+\begin{align*}
+  m^*(O_n) - \frac{\epsilon}{2^n}
+  \le m^*(A)
+  \le m^*(C_n) + \frac{\epsilon}{2^n}
+\end{align*}
+Let \(O := \bigcap^\infty_{n = 0} O_n, C := \bigcup^\infty_{n = 0} C_n\), then
+\(O \subset O_n, C \supset C_n\) holds for all \(n\). From this, \(m^*(O) \le
+m^*(A) \le m^*(C)\) holds, and \(C \subset A \subset O\) is true, so \(m^*(O) =
+m^*(A) = m^*(C)\). Let \(N_1 := O \setminus A, N_2 := A \setminus C\). Then,
+\(A = O \setminus N_1 = C \cup N_2\). As \(C_n\) are Lebesgue measurable for
+all \(n \ge 0\), its countable union, \(C\) is also Lebesgue measurable.
+Likewise, \(O^C_n\) are Lebesgue measurable for all \(n \ge 0\), its countable
+union, \(O^C\), is also Lebesgue measurable. Then, its complement, \(O\) is
+also Lebesgue measurable. Then \(N_1\) and \(N_2\) are Lebesgue measurable,
+\begin{align*}
+  m^*(O)
+  &= m^*(O \cap A) + m^*(O \setminus A)
+  = m^*(O \cap A) + m^*(N_1)
+  = m^*(A) + m^*(N_1) \\
+  m^*(A)
+  &= m^*(A \cap C) + m^*(A \setminus C)
+  = m^*(A \cap C) + m^*(N_2)
+  = m^*(C) + m^*(N_2)
+\end{align*}
+and \(m^*(N_1) = m^*(N_2) = 0\). As \(O\) and \(C\) are \(G_\delta\) and
+\(F_\sigma\), respectively, we can conclude that (i) implies (ii) and (iii).
+
+Now, suppose that \(A = V \setminus N_1\), for \(G_\delta\) set \(V\) and
+measure-zero set \(N_1\). For all \(E \subset \mathbb{R}\), we can write
+\begin{align*}
+  m^*(E \cap A)
+  &= m^*(E \cap (V \setminus N_1))
+  \le m^*(E \cap V \cap N^C_1)
+  \le m^*(E \cap V) \\
+  m^*(E \cap A^C)
+  &= m^*(E \cap (V \setminus N_1)^C)
+  \le m^*(E \cap (V^C \cup N_1)) \\
+  &\le m^*(E \cap V^C) + m^*(E \cap N_1)
+  \le m^*(E \cap V^C) + m^*(N_1)
+  = m^*(E \cap V^C)
+\end{align*}
+Then, as \(V^C\) is a countable union of closed sets, \(V^C\) and \(V\) are
+Lebesgue measurable, and we can write
+\begin{align*}
+  m^*(E)
+  \le m^*(E \cap A) + m^*(E \cap A^C)
+  \le m^*(E \cap V) + m^*(E \cap V^C)
+  = m^*(E)
+\end{align*}
+Thus, \(A\) is Lebesgue measurable, and (ii) implies (i).
+
+Finally, suppose that \(A = H \cup N_2\), for \(F_\sigma\) set \(H\) and
+measure-zero set \(N_2\). For all \(E \subset \mathbb{R}\), we can write
+\begin{align*}
+  m^*(E \cap A)
+  &= m^*(E \cap (H \cup N_2))
+  \le m^*(E \cap H) + m^*(E \cap N_2) \\
+  &\le m^*(E \cap H) + m^*(N_2)
+  = m^*(E \cap H) \\
+  m^*(E \cap A^C)
+  &= m^*(E \cap (H \cup N_2)^C)
+  = m^*(E \cap H^C \cap N^C_2)
+  \le m^*(E \cap H^C)
+\end{align*}
+Then, as \(H\) is a countable union of closed sets, \(H\) is Lebesgue
+measurable, and we can write
+\begin{align*}
+  m^*(E)
+  \le m^*(E \cap A) + m^*(E \cap A^C)
+  \le m^*(E \cap H) + m^*(E \cap H^C)
+  = m^*(E)
+\end{align*}
+Thus, \(A\) is Lebesgue measurable, and (iii) implies (i) and we know that (i),
+(ii), (iii) are equivalent.
+
+\section{Problem \#5}
+Suppose that \(f\) is measurable. Then, as \((a, \infty)\) is open,
+\(f^{-1}((a, \infty))\) is measurable by the definition of measurable
+functions.
+
+Now, suppose that \(f^{-1}((a, \infty))\) is measurable for all \(a \in
+\mathbb{R}\). Take \(a, b \in \mathbb{R}\), with \(a < b\). Pick \(r\) such
+that \(0 < r < b - a\), and let \(A_n := (a, b - r/n]\). Then, \(A_n = (a,
+\infty) \setminus (b - r/n, \infty)\), and \(f^{-1}(A_n) = f^{-1}((a, \infty))
+\setminus f^{-1}((b - r/n, \infty))\). Then, as \(r / n\) converges to zero as
+\(n \to \infty\), \((a, b) = \bigcup^\infty_{j = 1} A_j\), so
+\begin{align*}
+  f^{-1}((a, b))
+  = \bigcup^\infty_{j = 1} f^{-1}(A_j)
+  = \bigcup^\infty_{j = 1} [f^{-1}((a, \infty))
+    \setminus f^{-1}((b - r/j, \infty))]
+\end{align*}
+As \(f^{-1}(A_j)\) is measurable and \(f^{-1}((a, b))\) can be written as
+countable union of measurable sets, it is also measurable. Since the choice of
+\(a\) and \(b\) was arbitrary, \(f\) is measurable.
+
+\section{Problem \#6}
+Let \(A = \{x\; |\; f(x) \not = g(x)\}\), and \(h: \mathbb{R} \to \mathbb{R}\)
+as \(h(x) = f(x) - g(x)\). Define \(A_\alpha\) as follows:
+\begin{align*}
+  A_\alpha := \begin{cases}
+    \{x\; |\; h(x) > \alpha\} & (\alpha \ge 0) \\
+    \{x\; |\; h(x) \le \alpha\} & (\alpha < 0)
+  \end{cases}
+\end{align*}
+Then, for all \(\alpha \in \mathbb{R}\), \(A_\alpha \subset A\) holds. For all
+\(E \subset \mathbb{R}\), we can write
+\begin{align*}
+  m^*(E \cap A_\alpha)
+  \le m^*(A_\alpha)
+  \le m^*(A)
+  = 0, \quad
+  m^*(E \cap A_\alpha^C)
+  \le m^*(E)
+\end{align*}
+so \(m^*(E \cap A_\alpha) + m^*(E \cap A^C_\alpha) = m^*(E \cap A^C_\alpha) \le
+m^*(E)\). As \(m^*(E) \le m^*(E \cap A_\alpha) + m^*(E \cap A^C_\alpha)\) also
+holds, \(m^*(E) = m^*(E \cap A_\alpha) + m^*(E \cap A^C_\alpha)\) and
+\(A_\alpha\) is also Lebesgue measurable, and the measure is zero. Then,
+\(h^{-1}((a, b))\) can be constructed by at most countable unions and
+complements of \(A_\alpha\) sets, so \(h^{-1}((a, b))\) is Lebesgue measurable,
+and \(g(x) = f(x) - h(x)\) is also Lebesgue measurable.
+
+\end{document}
+% vim: textwidth=79
